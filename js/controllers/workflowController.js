@@ -33,12 +33,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
                         if($scope.workflows[k].name == tasks[i].workflow)
                         {
-
-                            /*
-                            var taskTemplate = document.getElementById('task-template').innerHTML;
-                            taskTemplate = Mustache.render(taskTemplate, tasks[i]);
-                            $("#" + tasks[i].workflow + " ul").append(taskTemplate);
-                            */
+                            console.log("task");
+                            console.log(tasks[i]);
+                            $scope.workflows[k].addTask(tasks[i]);
                             workflowExist = true;
                             break;
 
@@ -53,14 +50,6 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                         var newWorkflow = new $scope.workflow(tasks[i].workflow);
                         var workflowTemplate = document.getElementById('workflow-template').innerHTML;
                         $scope.workflows.push(newWorkflow);
-                        /*
-                        workflowTemplate = Mustache.render(workflowTemplate, newWorkflow);
-                        $('#workflow-container').append(workflowTemplate);
-
-                        var taskTemplate = document.getElementById('task-template').innerHTML;
-                        taskTemplate = Mustache.render(taskTemplate, tasks[i]);
-                        $("#" + tasks[i].workflow + " ul").append(taskTemplate);
-                        */
                     }
 
                 }
@@ -110,18 +99,15 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
   $scope.addNewWorkflow = function() 
   {
 
-    var newWorkflowName = $scope.newWorkflowName;
-    $scope.dismissPopupButtonClicked();
-    var workflow = {
-      id: "1",
-        name: newWorkflowName
-    };
+    var newWorkflow = new $scope.workflow($scope.newWorkflowName);
+    $scope.workflows.push(newWorkflow)
+    document.getElementById('light').style.display='none';
+    document.getElementById('fade').style.display='none';
+    $('#create-new-workflow-input').val("");    
+      $('#create-new-workflow-button').attr("disabled", true);  
+    $scope.clearAddNewWorkflowForm();
 
-    var workflowTemplate = document.getElementById('workflow-template').innerHTML;
-      workflowTemplate = Mustache.render(workflowTemplate, workflow);
-      
-    $('#workflow-container').append(workflowTemplate);
-
+    $scope.$apply();
   }
 
   $scope.clearAddNewWorkflowForm = function()

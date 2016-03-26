@@ -31,6 +31,7 @@
 </nav>
 <div class="container">       
    <div id="workflow-container" class="row">
+        <!--
         <div class="col-lg-4 col-lg-4">
         <div class="panel panel-default">
                     <div class="panel-heading">
@@ -49,12 +50,6 @@
                                         <span class="show-menu">
                                             <span class="glyphicon glyphicon-chevron-right"></span>
                                         </span>
-                                        <!--
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        -->
                                         </a>
                                     </li>
                                     <li class="list-group-item">
@@ -144,7 +139,7 @@
                 </div>
         </div>
     </div>
-
+    -->
     <!-- Popup View --> 
     <div id="light" class="white_content"><button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" ng-click = "dismissPopupButtonClicked()"><i class="glyphicon glyphicon-remove"></i></button>
         <form ng-submit="addNewWorkflow()" style="text-align:center; margin-top: 100px;">
@@ -201,7 +196,6 @@
     <div id="fade" class="black_overlay"></div>
 </div>
 
-<h1>Hi</h1>
 <ul ng-repeat="workflow in workflows" class="workflow">
     <li>
         <div id="{{workflow.name}" class='col-lg-4 col-lg-4' ng-model="workflowId">
@@ -211,7 +205,17 @@
                     </div>
                         <div id='collapseOne' class='panel-collapse collapse in'>
                         <div class='panel-body'>
-                        <ul class='list-group'>
+                        <ul class='list-group' ng-repeat="task in workflow.tasks">
+                            <li id="{{task._id}}" class="list-group-item">
+                                <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
+                                <p>{{task.title}}</p>
+                                <p>{{task.description}}</p>
+                                <div>{{task.creator.username}}</div>
+                                <span class="show-menu">
+                                <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
+                                </span>
+                                </a>
+                            </li> 
                         </ul>
                         <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTask()">
                             <i class="glyphicon glyphicon-plus"></i>
