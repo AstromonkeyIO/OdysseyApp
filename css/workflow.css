@@ -28,6 +28,12 @@
 
 }
 
+.workflow {
+	list-style-type: none;
+	list-style: none;
+
+}
+
 #add-workflow-button:hover 
 {
 	opacity: 0.75;

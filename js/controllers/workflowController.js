@@ -1,7 +1,7 @@
-odysseyApp.controller('workflowController', function ($scope, $routeParams) 
+odysseyApp.controller('workflowController', function ($scope, $routeParams, $compile) 
 {
 
-    $scope.workflows = {};
+    $scope.workflows = [];
     $scope.workflow = function(name) {
         this.name = name;
         this.tasks = [];
@@ -25,27 +25,49 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams)
                 for(i = 0; i < tasks.length; i++)
                 {
 
+                    var workflowExist = false;
+
                     // if the workflow currently exists on the page, add the task to the existing workflow
-                    if(typeof($scope.workflows[tasks[i].workflow]) !== "undefined") {
-                        
-                        var taskTemplate = document.getElementById('task-template').innerHTML;
-                        taskTemplate = Mustache.render(taskTemplate, tasks[i]);
-                        $("#" + tasks[i].workflow + " ul").append(taskTemplate);
+                    for(k = 0; k < $scope.workflows.length; k++)
+                    {
 
-                    } else {
+                        if($scope.workflows[k].name == tasks[i].workflow)
+                        {
 
+                            /*
+                            var taskTemplate = document.getElementById('task-template').innerHTML;
+                            taskTemplate = Mustache.render(taskTemplate, tasks[i]);
+                            $("#" + tasks[i].workflow + " ul").append(taskTemplate);
+                            */
+                            workflowExist = true;
+                            break;
+
+                        }
+
+                    }
+
+                    // if the workflow doesn't exist create a new one
+                    if(workflowExist == false)
+                    {
+                        console.log("I'm here");   
                         var newWorkflow = new $scope.workflow(tasks[i].workflow);
                         var workflowTemplate = document.getElementById('workflow-template').innerHTML;
-                        $scope.workflows[tasks[i].workflow] = newWorkflow;
+                        $scope.workflows.push(newWorkflow);
+                        /*
                         workflowTemplate = Mustache.render(workflowTemplate, newWorkflow);
                         $('#workflow-container').append(workflowTemplate);
 
                         var taskTemplate = document.getElementById('task-template').innerHTML;
                         taskTemplate = Mustache.render(taskTemplate, tasks[i]);
                         $("#" + tasks[i].workflow + " ul").append(taskTemplate);
+                        */
                     }
 
                 }
+
+                $scope.$apply();
+
+                console.log($scope.workflows);
 
             },
             error: function(error) {
@@ -53,7 +75,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams)
             }
         });      
 
-  });
+    });
 
   $scope.addWorkflowButtonClicked = function() 
   {
@@ -111,6 +133,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams)
 
   }
 
+  /*
   $scope.createNewTaskButtonClicked = function(workflowId)
   {
 
@@ -119,6 +142,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams)
     $scope.workflowId = workflowId;
 
   }
+  */
 
   $scope.createNewTask = function()
   {
@@ -180,8 +204,13 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams)
 
   }
 
-  function createNewTaskButtonClicked(workflowId)
+  function test1 () {
+    console.log("test 1");
+  }
+
+  $scope.createNewTaskButtonClicked =function (workflowId)
   {
+    console.log("yooyo");
 
     angular.element($('#body')).scope().createNewTaskButtonClicked(workflowId);
 

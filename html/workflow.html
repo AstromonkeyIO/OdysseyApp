@@ -200,6 +200,30 @@
     <!-- Black Background Overlay for Popup Display -->       
     <div id="fade" class="black_overlay"></div>
 </div>
+
+<h1>Hi</h1>
+<ul ng-repeat="workflow in workflows" class="workflow">
+    <li>
+        <div id="{{workflow.name}" class='col-lg-4 col-lg-4' ng-model="workflowId">
+            <div class='panel panel-default'>
+                <div class='panel-heading'>
+                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.name}}</a></h4>
+                    </div>
+                        <div id='collapseOne' class='panel-collapse collapse in'>
+                        <div class='panel-body'>
+                        <ul class='list-group'>
+                        </ul>
+                        <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTask()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </li>   
+</ul>
+ 
+<!-- Workflow Mustache Template -->
 <script id="workflow-template" type="text/html">
 <div id="{{name}}" class='col-lg-4 col-lg-4' ng-model="workflowId" ng-init="workflowId={{id}}">
     <div class='panel panel-default'>
@@ -210,7 +234,7 @@
                 <div class='panel-body'>
                 <ul class='list-group'>
                 </ul>
-                <button id="add-task-button" class="btn btn-circle pull-right" onclick="createNewTaskButtonClicked({{id}})">
+                <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTask()">
                     <i class="glyphicon glyphicon-plus"></i>
                 </button>
             </div>
@@ -218,6 +242,8 @@
     </div>
 </div>
 </script>
+
+<!-- Task Mustache Template -->
 <script id="task-template" type="text/html">
     <li id="{{_id}}" class="list-group-item">
         <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
@@ -235,4 +261,5 @@
         </a>
     </li>   
 </script>
+
 </body>
