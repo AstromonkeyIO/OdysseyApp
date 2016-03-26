@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<title>Page Title</title>
+<link href="/css/workflow.css?v=1" rel="stylesheet"  type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
+<body id="body" ng-controller="workflowController">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+        </div>
+
+        <a class="navbar-brand navbar-center" href="#">Boards</a>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Boards</a></li>
+                    <li><a href="#">Calendar</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="container">       
+   <div id="workflow-container" class="row">
+        <div class="col-lg-4 col-lg-4">
+        <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">To-Do</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        <div style="word-wrap: break-word; margin-right: 7px;">
+                                        Walk my dog
+                                        </div>
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <!--
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        -->
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        Complete Project
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        Grab a Beer with Friends.
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item info"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTaskButtonClicked(this)">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+        </div>
+        <div class="col-lg-4 col-lg-4">
+        <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pending</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        Vet Appointment!
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        Complete Project
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="task-link">
+                                        Grab a Beer with Friends.
+                                        <span class="show-menu">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                        <ul class="list-group-submenu">
+                                            <li class="list-group-submenu-item info"><span class="glyphicon glyphicon-remove"></span></li>
+                                            <li class="list-group-submenu-item"><span class="glyphicon glyphicon-ok"></span></li>
+                                        </ul>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTaskButtonClicked()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Popup View --> 
+    <div id="light" class="white_content"><button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" ng-click = "dismissPopupButtonClicked()"><i class="glyphicon glyphicon-remove"></i></button>
+        <form ng-submit="addNewWorkflow()" style="text-align:center; margin-top: 100px;">
+            <div class="input-group" style="margin:20px;">
+                <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Type in the name of your new workflow!" ng-model="newWorkflowName" ng-keyup="checkDataInCreateNewWorkflowInput()">
+            </div>
+            <div style="margin:20px;">
+            <button id="create-new-workflow-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" disabled>Create</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Create Task Popup View -->
+    <div id="create-task-popup"><button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" ng-click = "dismissCreateTaskPopupButtonClicked()"><i class="glyphicon glyphicon-remove"></i></button>
+        <form ng-submit="createNewTask()" style="text-align:center; margin-top: 43px;">
+            <div class="input-group" style="margin:20px;">
+                <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                <input id="task-name-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Task" ng-model="createTaskForm.taskName" required>
+            </div>
+            <div class="input-group" style="margin:20px;">
+                    <span class="input-group-addon success"><span class="glyphicon glyphicon-pencil"></span></span>
+                    <textarea class="form-control" name="description" placeholder="Description" rows="3" ng-model="createTaskForm.description"></textarea>    
+            </div>
+            <div class="input-group" style="margin:20px;">
+                    <div style="float:left">
+                    <div class="input-group">
+                    <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="createTaskForm.date">
+                    <!--Due Date: <input type="date" name="bday">-->
+                    </div>
+                    </div>
+                    <div style="float:right; margin-left:15px;">
+                    Priority: <div class="btn-group btn-group-md" role="group" aria-label="...">
+                      <button type="button" class="btn btn-success">Low</button>
+                      <button type="button" class="btn btn-warning">Medium</button>
+                      <button type="button" class="btn btn-danger">High</button>
+                    </div>
+                    </div>
+            </div>
+            <div class="input-group" style="margin:20px;">
+                <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
+                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="assignee" ng-model="createTaskForm.assignee">
+            </div>
+            <div style="margin:20px;">
+            <button id="create-task-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" ng-disabled="!createTaskForm.taskName">Create</button>
+            </div>
+        </form>
+    </div>
+    <!-- Add Workflow Button -->
+    <button id="add-workflow-button" type="button" class="btn btn-circle btn-lg" ng-click="addWorkflowButtonClicked()"><i class="glyphicon glyphicon-plus"></i></button>
+    
+    <!-- Black Background Overlay for Popup Display -->       
+    <div id="fade" class="black_overlay"></div>
+</div>
+<script id="workflow-template" type="text/html">
+<div id="{{id}}" class='col-lg-4 col-lg-4' ng-model="workflowId" ng-init="workflowId={{id}}">
+    <div class='panel panel-default'>
+        <div class='panel-heading'>
+            <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{name}}</a></h4>
+            </div>
+                <div id='collapseOne' class='panel-collapse collapse in'>
+                <div class='panel-body'>
+                <ul class='list-group'>
+                </ul>
+                <button id="add-task-button" class="btn btn-circle pull-right" onclick="createNewTaskButtonClicked({{id}})">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script id="task-template" type="text/html">
+    <li id="{{id}}" class="list-group-item">
+        <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
+        {{name}}
+        <span class="show-menu">
+        <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
+        </span>
+        <!--
+        <ul class="list-group-submenu">
+            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
+            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
+        </ul>
+        -->
+        </a>
+    </li>   
+</script>
+</body>

@@ -1,0 +1,138 @@
+.navbar-brand{
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	text-align: center;
+	margin: auto;
+}
+.loading {
+	background-color: yellow;
+	padding: 10px;
+}
+
+.song {
+	border-bottom: 1px solid black;
+	background: white;
+	padding: 20px;
+}
+
+.song img {
+	float: left;
+	margin-right: 20px;
+}
+
+.song h4 {
+	margin-top: 0;
+}
+
+#mini-container {
+	font-size: 10px;
+	height: 100%;
+	float: left;
+	width: 100%;
+	overflow-y: auto;
+	background-color: red;
+	opacity: 0.6;
+	margin: 10px;
+}
+
+li{
+	list-style-type: none;
+
+}
+
+.container{
+	width: 100%;
+	margin: 0 0;
+	padding: 0;
+
+}
+
+#container-center {
+	border-radius: 4px;
+	border: 3px solid #eee;
+	margin: auto;
+	width: 60%;
+	text-align: center;
+	background-color: #f8f8f8;
+}
+
+#container-center h1{
+	text-align: center;
+	font-size: 30px;
+	color: #333;
+	font-weight: : 600;
+}
+
+#pickedCareer {
+	color: blue;
+}
+#item-row {
+	display: block;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px solid #fff;
+	background-color: #DFF5F7;
+}
+
+#item-row li {
+	text-align: left;
+}
+#item-title {
+	text-align: left;
+	padding: 0px;
+	margin: 0px:
+}
+
+#item-title2  {
+	text-align: right;
+}
+
+#button{
+	margin: 0 auto;
+	width: 50%;
+}
+#container-center li{
+	width: 100%;
+	font-size: 10px;
+	border-bottom: 1px solid #ededed;
+	padding: 10px;
+}
+
+footer{
+	text-align: center;
+}
+
+.avatar{
+	border-radius: 50% 50% 50% 50%;
+	width: 45px;
+	height: 45px;
+	margin-top: 1px;
+	margin-right: 10px;
+	margin-bottom: 1px;
+}
+
+.board {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	background-color: #F1F1F1;
+	outline: #DEDEDE solid thin;
+	border: 1px solid darken($wellBackground, 7%);
+	width: 400px;
+	height:150px;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+#dashboard button{
+	float: right;
+	margin-right: 30px;
+}
+
+#dashboard .board label{
+	text-align: center;
+	color: gray;
+	vertical-align: middle;
+	position: absolute;
+}
