@@ -1,7 +1,59 @@
-odysseyApp.controller('workflowController', function ($scope) 
+odysseyApp.controller('workflowController', function ($scope, $routeParams) 
 {
 
-  $scope.workflowId;
+    $scope.workflows = {};
+    $scope.workflow = function(name) {
+        this.name = name;
+        this.tasks = [];
+        this.addTask = function(newTask) {
+            this.tasks.push(newTask);
+        }
+    };
+
+    $scope.$on('$routeChangeSuccess', function() {
+
+        $.ajax({ 
+            type: "GET",
+            url: "http://odysseyapistaging.herokuapp.com/api/tasks?boardId=" + $routeParams.boardId,
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(tasks) {
+
+                console.log(tasks);
+                for(i = 0; i < tasks.length; i++)
+                {
+
+                    // if the workflow currently exists on the page, add the task to the existing workflow
+                    if(typeof($scope.workflows[tasks[i].workflow]) !== "undefined") {
+                        
+                        var taskTemplate = document.getElementById('task-template').innerHTML;
+                        taskTemplate = Mustache.render(taskTemplate, tasks[i]);
+                        $("#" + tasks[i].workflow + " ul").append(taskTemplate);
+
+                    } else {
+
+                        var newWorkflow = new $scope.workflow(tasks[i].workflow);
+                        var workflowTemplate = document.getElementById('workflow-template').innerHTML;
+                        $scope.workflows[tasks[i].workflow] = newWorkflow;
+                        workflowTemplate = Mustache.render(workflowTemplate, newWorkflow);
+                        $('#workflow-container').append(workflowTemplate);
+
+                        var taskTemplate = document.getElementById('task-template').innerHTML;
+                        taskTemplate = Mustache.render(taskTemplate, tasks[i]);
+                        $("#" + tasks[i].workflow + " ul").append(taskTemplate);
+                    }
+
+                }
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });      
+
+  });
 
   $scope.addWorkflowButtonClicked = function() 
   {

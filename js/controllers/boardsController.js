@@ -1,4 +1,4 @@
-odysseyApp.controller('boardsController', function($scope) {
+odysseyApp.controller('boardsController', function($scope, $routeParams) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
@@ -18,12 +18,11 @@ odysseyApp.controller('boardsController', function($scope) {
 
 				if(typeof(boards[i].title) != 'undefined')
 				{
-					console.log("im here");
 					$scope.boardsList.push({
-						name: $scope.num,
-						description: 'description'
+						id: boards[i]._id,
+						title: boards[i].title,
+						description: boards[i].description
 					});					
-
 				}
 
 			}
@@ -37,10 +36,31 @@ odysseyApp.controller('boardsController', function($scope) {
 	});
 
 	$scope.createBoard = function(){
-		$scope.num++;
-		$scope.boardsList.push({
-			name: 'Board' + $scope.num,
-			description: 'dentist'
+
+		$.ajax({ 
+			type: "POST",
+			url: "http://odysseyapistaging.herokuapp.com/api/boards",
+			data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription}),
+			crossDomain: true,
+			dataType: "json",
+			contentType: 'application/json',
+			processData: false,
+			success: function(board) {
+				
+				$scope.boardsList.push({
+					id: board._id,
+					title: board.title ,
+					description: board.description
+				});
+
+				$scope.$apply();
+
+				$('#createBoardPopup').modal('hide')
+
+			},
+			error: function(error) {
+			  console.log(error);
+			}
 		});
 
 	};

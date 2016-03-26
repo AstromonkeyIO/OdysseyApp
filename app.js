@@ -18,7 +18,7 @@ odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider
     controller: 'boardsController',
     templateUrl: '/html/boards.html'
   })
-  .when('/workflow', {
+  .when('/boards/:boardId', {
     controller: 'workflowController',
     templateUrl: '/html/workflow.html'
   })
@@ -27,10 +27,6 @@ odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider
   $locationProvider.html5Mode(true);
 
 }]);
-
-
-
-
 
 $(document).ready(function() {
     $("[rel='tooltip'], .tooltip").tooltip();

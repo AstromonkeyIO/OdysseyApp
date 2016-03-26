@@ -201,7 +201,7 @@
     <div id="fade" class="black_overlay"></div>
 </div>
 <script id="workflow-template" type="text/html">
-<div id="{{id}}" class='col-lg-4 col-lg-4' ng-model="workflowId" ng-init="workflowId={{id}}">
+<div id="{{name}}" class='col-lg-4 col-lg-4' ng-model="workflowId" ng-init="workflowId={{id}}">
     <div class='panel panel-default'>
         <div class='panel-heading'>
             <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{name}}</a></h4>
@@ -219,9 +219,10 @@
 </div>
 </script>
 <script id="task-template" type="text/html">
-    <li id="{{id}}" class="list-group-item">
+    <li id="{{_id}}" class="list-group-item">
         <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
-        {{name}}
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
         <span class="show-menu">
         <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
         </span>

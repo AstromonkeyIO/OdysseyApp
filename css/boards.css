@@ -113,15 +113,17 @@ footer{
 }
 
 .board {
+	display: block;
+	float: left;
 	min-height: 20px;
 	padding: 19px;
 	margin-bottom: 20px;
 	background-color: #F1F1F1;
+	color:#0074D9; 
 	outline: #DEDEDE solid thin;
 	border: 1px solid darken($wellBackground, 7%);
-	width: 400px;
+	width: 33.3%;
 	height:150px;
-	margin: auto;
 	margin-bottom: 10px;
 }
 
@@ -136,3 +138,23 @@ footer{
 	vertical-align: middle;
 	position: absolute;
 }
+
+.create-board-button 
+{
+	height:120px; 
+	width:120px; 
+	border-radius:50%; 
+	position: fixed; 
+	right:50px; 
+	bottom:30px; 
+	background-color:#0074D9; 
+	color:white; 
+	outline:none;
+	border: none;
+}
+
+.create-board-button:hover 
+{
+	opacity: 0.75;
+}
+

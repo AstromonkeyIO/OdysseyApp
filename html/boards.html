@@ -43,13 +43,11 @@
 		</nav>
 		<div id="dashboard">
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalNorm">
-				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				New Board
+			<button type="button" class="create-board-button" data-toggle="modal" data-target="#createBoardPopup">
+			+
 			</button>
-
 			<!-- Modal -->
-			<div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog"
+			<div class="modal fade" id="createBoardPopup" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -64,47 +62,67 @@
 						New Board
 					</h4>
 				</div>
-
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<form role="form">
+					<!--
+	                <form ng-submit="createBoard()" name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+	                	<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-plus fa-fw"></i></span>
+								<input class="form-control"
+									id="exampleInputEmail1" ng-model="newBoardTitle" placeholder="Board Title"/>
+							</div>
+						</div>
+						<div class="form-group">
+		                    <div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input class="form-control" id="exampleInputPassword1" ng-model="newBoardDescription" placeholder="Description"/>
+		                    </div> 
+		                </div>
+		                <div class="modal-footer">                                                                     
+	                    	<button type="submit" class="btn btn-primary">Login</button>
+	                    </div>
+	                </form> 
+					-->
+					<form role="form" ng-submit="createBoard()" method="POST">
 						<div class="form-group">
 							<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-plus fa-fw"></i></span>
-								<input type="email" class="form-control"
-								id="exampleInputEmail1" placeholder="Board Name"/>
+								<input class="form-control"
+								id="exampleInputEmail1" ng-model="newBoardTitle" placeholder="Board Title"/>
 							</div>
 						</div>
 						<div class="form-group">
 								<div class = "input-group">
 									<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-									<input type="password" class="form-control"
-									id="exampleInputPassword1" placeholder="Description"/>
+									<input class="form-control"
+									id="exampleInputPassword1" ng-model="newBoardDescription" placeholder="Description"/>
 								</div>
 						</div>
 						<div class="form-group">
 							<div class = "input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-									<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Members"/>
+									<input class="form-control" id="exampleInputPassword1" placeholder="Members"/>
 							</div>
 						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>					
 				</div>
-				<!-- Modal Footer -->
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" data-dismiss="modal" data-ng-click="createBoard()">Submit</button>
-				</div>
-				</form>
 		</div>
+	</div>
+</div>
 
+	<div>
+		<ul ng-repeat="board in boardsList">
+			<li class="board">
+				<a ng-href="/boards/{{board.id}}">
+					<h3>{{board.title}}</h3>
+					<div> {{board.description}}</div>
+				</a>
+			</li>	
+		</ul>
 	</div>
-</div>
-<div>
-	<div ng-repeat="board in boardsList">
-		<label ng-model="board.name"> </label>
-		<div class="board">
-			<label ng-model="board.name"> {{board.name}}</label>
-		</div>
-	</div>
-</div>
 </div>
 </body>
