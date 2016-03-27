@@ -127,11 +127,6 @@ footer{
 	margin-bottom: 10px;
 }
 
-#dashboard button{
-	float: right;
-	margin-right: 30px;
-}
-
 #dashboard .board label{
 	text-align: center;
 	color: gray;
@@ -157,4 +152,27 @@ footer{
 {
 	opacity: 0.75;
 }
+
+.board-remove-button {
+	float: left;
+	display: none;
+	margin-right: 2px;
+	margin-top: 2px;
+}
+
+.board-edit-button {
+	float: left;
+	display: none;
+	margin-right: 2px;
+	margin-top: 2px;
+}
+
+.board:hover .board-remove-button {
+    display: block;
+}
+
+.board:hover .board-edit-button {
+    display: block;
+}
+
 

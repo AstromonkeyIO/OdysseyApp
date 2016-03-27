@@ -4,13 +4,23 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     $scope.workflows = [];
     $scope.boardId = $routeParams.boardId;
 
-    console.log($scope.boardId);
     $scope.workflow = function(name) {
         this.name = name;
         this.tasks = [];
         this.addTask = function(newTask) {
             this.tasks.push(newTask);
-        }
+        };
+        this.deleteTask = function(taskId) {
+
+            for(i = 0; i < this.tasks.length; i++) {
+
+                if(this.tasks[i]._id == taskId) {
+                    this.tasks.splice(i, 1);
+                }
+
+            }
+
+        };
     };
 
     $scope.$on('$routeChangeSuccess', function() {
@@ -111,6 +121,28 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     $scope.dismissCreateTaskPopupButtonClicked(); 
                 }
 
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }
+
+    $scope.deleteTask = function(taskId, workflow) {
+        
+
+        workflow.deleteTask(taskId);
+
+        $.ajax({ 
+            type: "DELETE",
+            url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+taskId,
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(task) {
+                console.log(task);
             },
             error: function(error) {
               console.log(error);

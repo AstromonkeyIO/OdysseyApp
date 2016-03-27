@@ -1,9 +1,7 @@
-odysseyApp.controller('boardsController', function($scope, $routeParams, AuthService) {
+odysseyApp.controller('boardsController', function($scope, $routeParams, AuthService, UserService) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
-
-	console.log(AuthService.getCurrentUser());
 
 	$.ajax({ 
 		type: "GET",
@@ -20,13 +18,8 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 
 				if(typeof(boards[i].title) != 'undefined')
 				{
-					$scope.boardsList.push({
-						id: boards[i]._id,
-						title: boards[i].title,
-						description: boards[i].description
-					});					
+					$scope.boardsList.push(boards[i]);					
 				}
-
 			}
 
 			$scope.$apply();
@@ -49,11 +42,7 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 			processData: false,
 			success: function(board) {
 				
-				$scope.boardsList.push({
-					id: board._id,
-					title: board.title ,
-					description: board.description
-				});
+				$scope.boardsList.push(board);
 
 				$scope.$apply();
 
@@ -66,4 +55,34 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 		});
 
 	};
+
+	$scope.deleteBoard = function(boardId) {
+
+		var boardId = boardId
+		$.ajax({ 
+			type: "DELETE",
+			url: "http://odysseyapistaging.herokuapp.com/api/boards/"+boardId,
+			crossDomain: true,
+			dataType: "json",
+			contentType: 'application/json',
+			processData: false,
+			success: function(board) {
+				
+				console.log(board);
+				for(i = 0; i < $scope.boardsList.length; i++) {
+					if($scope.boardsList[i]._id == boardId) {
+						console.log(i);
+						$scope.boardsList.splice(i, 1);
+						$scope.$apply();
+					}
+				}
+
+			},
+			error: function(error) {
+			  console.log(error);
+			}
+		});
+
+	};
+
 });

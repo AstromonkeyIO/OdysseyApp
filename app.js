@@ -2,20 +2,31 @@
 var odysseyApp = angular.module('odysseyApp', ['ngRoute']);
 
 // for creating current user session
-odysseyApp.factory( 'AuthService', function() {
-  var currentUser;
+odysseyApp.factory( 'AuthService', function($http, $q, $rootScope) {
+  var currentUser = "yo";
 
   return {
 
     getCurrentUser: function() {
         return currentUser;
     },
-    setCurrentUser: function(cu){
-        currentUser = cu;
-        return currentUser;
+    setCurrentUser: function(u){
+        currentUser = u;
     }
+  }
+});
 
-  };
+odysseyApp.service('UserService', function($http) {
+    this.currentUser; 
+    this.setCurrentUser = function(user) {
+        this.currentUser = user;
+    };
+    this.getCurrentUser = function() {
+        return this.currentUser;
+    };
+    this.hello = function() {
+        return "Hello, World!"
+    };
 });
 
 

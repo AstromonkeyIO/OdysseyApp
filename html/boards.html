@@ -113,14 +113,15 @@
 		</div>
 	</div>
 </div>
-
 	<div>
 		<ul ng-repeat="board in boardsList">
 			<li class="board">
-				<a ng-href="/boards/{{board.id}}">
+				<a ng-href="/boards/{{board._id}}">
 					<h3>{{board.title}}</h3>
 					<div> {{board.description}}</div>
 				</a>
+				<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id)"><i class="glyphicon glyphicon-remove"></i></button>
+				<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="deleteBoard(board._id)"><i class="glyphicon glyphicon-cog"></i></button>
 			</li>	
 		</ul>
 	</div>

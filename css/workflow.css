@@ -23,9 +23,26 @@
 
 }
 
-.task-link
-{
 
+
+.task-remove-button {
+	float: left;
+	display: none;
+	margin-right: 2px;
+}
+
+.task-edit-button {
+	float: left;
+	display: none;
+	margin-right: 2px;
+}
+
+.task-box:hover .task-remove-button {
+    display: block;
+}
+
+.task-box:hover .task-edit-button {
+    display: block;
 }
 
 .workflow {
