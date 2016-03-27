@@ -1,6 +1,24 @@
-// Code goes here
 
 var odysseyApp = angular.module('odysseyApp', ['ngRoute']);
+
+// for creating current user session
+odysseyApp.factory( 'AuthService', function() {
+  var currentUser;
+
+  return {
+
+    getCurrentUser: function() {
+        return currentUser;
+    },
+    setCurrentUser: function(cu){
+        currentUser = cu;
+        return currentUser;
+    }
+
+  };
+});
+
+
 odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider){
   $routeProvider.when('/', {
     controller: 'testController',

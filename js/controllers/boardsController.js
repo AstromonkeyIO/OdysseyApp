@@ -1,7 +1,9 @@
-odysseyApp.controller('boardsController', function($scope, $routeParams) {
+odysseyApp.controller('boardsController', function($scope, $routeParams, AuthService) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
+
+	console.log(AuthService.getCurrentUser());
 
 	$.ajax({ 
 		type: "GET",

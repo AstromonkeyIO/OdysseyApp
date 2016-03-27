@@ -2,6 +2,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 {
 
     $scope.workflows = [];
+    $scope.boardId = $routeParams.boardId;
+
+    console.log($scope.boardId);
     $scope.workflow = function(name) {
         this.name = name;
         this.tasks = [];
@@ -33,12 +36,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
                         if($scope.workflows[k].name == tasks[i].workflow)
                         {
-                            console.log("task");
-                            console.log(tasks[i]);
                             $scope.workflows[k].addTask(tasks[i]);
+                            $scope.$apply();
                             workflowExist = true;
-                            break;
-
                         }
 
                     }
@@ -46,18 +46,17 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     // if the workflow doesn't exist create a new one
                     if(workflowExist == false)
                     {
-                        console.log("I'm here");   
                         var newWorkflow = new $scope.workflow(tasks[i].workflow);
-                        var workflowTemplate = document.getElementById('workflow-template').innerHTML;
+                        
+                        if(newWorkflow.name == tasks[i].workflow)
+                            newWorkflow.addTask(tasks[i]);
+
                         $scope.workflows.push(newWorkflow);
+
                     }
 
                 }
-
                 $scope.$apply();
-
-                console.log($scope.workflows);
-
             },
             error: function(error) {
                 console.log(error);
@@ -65,6 +64,61 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         });      
 
     });
+
+    $scope.addNewWorkflow = function() {
+
+        var newWorkflow = new $scope.workflow($scope.newWorkflowName);
+        $scope.workflows.push(newWorkflow)
+        document.getElementById('light').style.display='none';
+        document.getElementById('fade').style.display='none';
+        $('#create-new-workflow-input').val("");    
+        $('#create-new-workflow-button').attr("disabled", true);  
+        $scope.clearAddNewWorkflowForm();
+        //$scope.$apply();
+
+    }
+
+    $scope.targetedWorkflow;
+
+    $scope.displayCreateTaskPopup = function(workflow) {
+
+      $scope.targetedWorkflow = workflow;
+      document.getElementById('create-task-popup').style.display='block';
+      document.getElementById('fade').style.display='block';
+
+    }
+
+    $scope.createNewTask = function() {
+
+        $.ajax({ 
+            type: "POST",
+            url: "http://odysseyapistaging.herokuapp.com/api/tasks",
+            data: JSON.stringify({ "title": $scope.createTaskForm.taskName, "description": $scope.createTaskForm.description, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow.name}),
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(task) {
+                
+                if(typeof(task.code) != 'undefined') 
+                {
+                    console.log(task.code);
+                }
+                else 
+                {
+                    $scope.targetedWorkflow.tasks.push(task);
+                    $scope.$apply();
+                    $scope.dismissCreateTaskPopupButtonClicked(); 
+                }
+
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }    
+
 
   $scope.addWorkflowButtonClicked = function() 
   {
@@ -96,20 +150,6 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
   }
 
-  $scope.addNewWorkflow = function() 
-  {
-
-    var newWorkflow = new $scope.workflow($scope.newWorkflowName);
-    $scope.workflows.push(newWorkflow)
-    document.getElementById('light').style.display='none';
-    document.getElementById('fade').style.display='none';
-    $('#create-new-workflow-input').val("");    
-      $('#create-new-workflow-button').attr("disabled", true);  
-    $scope.clearAddNewWorkflowForm();
-
-    $scope.$apply();
-  }
-
   $scope.clearAddNewWorkflowForm = function()
   {
 
@@ -119,38 +159,15 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
   }
 
-  /*
-  $scope.createNewTaskButtonClicked = function(workflowId)
+  
+  $scope.createNewTaskButtonClicked = function()
   {
 
     document.getElementById('create-task-popup').style.display='block';
     document.getElementById('fade').style.display='block';
-    $scope.workflowId = workflowId;
 
   }
-  */
-
-  $scope.createNewTask = function()
-  {
-
-    var task = {
-      id:"",
-      name: $scope.createTaskForm.taskName,
-      description: $scope.createTaskForm.description,
-      date: $scope.createTaskForm.date,
-      priority: "",
-      assignee: ""
-    }
-    var taskTemplate = document.getElementById('task-template').innerHTML;
-      taskTemplate = Mustache.render(taskTemplate, task);
-
-      console.log($scope.workflowId);
-      $("#" + $scope.workflowId + " ul").append(taskTemplate);
-
-    $scope.dismissCreateTaskPopupButtonClicked(); 
-
-  }
-
+  
   $scope.clearAddNewWorkflowForm = function()
   {
 

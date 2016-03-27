@@ -1,4 +1,4 @@
-odysseyApp.controller('loginController', function($scope, $location, $window) {
+odysseyApp.controller('loginController', function($scope, $location, $window, AuthService) {
 
   $scope.submit = function() {
 
@@ -11,6 +11,8 @@ odysseyApp.controller('loginController', function($scope, $location, $window) {
       processData: false,
       success: function(user) {
 
+        console.log(AuthService.setCurrentUser(user));
+        
         $window.location.href = '/#/boards';
 
       },

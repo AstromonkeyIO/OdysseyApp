@@ -9,7 +9,7 @@
         <div class="navbar-header">
         </div>
 
-        <a class="navbar-brand navbar-center" href="#">Boards</a>
+        <a class="navbar-brand navbar-center" ng-href="/boards">Boards</a>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li class="dropdown">
@@ -207,7 +207,7 @@
                         <div class='panel-body'>
                         <ul class='list-group' ng-repeat="task in workflow.tasks">
                             <li id="{{task._id}}" class="list-group-item">
-                                <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
+                                <a href="#" class="task-link">
                                 <p>{{task.title}}</p>
                                 <p>{{task.description}}</p>
                                 <div>{{task.creator.username}}</div>
@@ -217,10 +217,10 @@
                                 </a>
                             </li> 
                         </ul>
-                        <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTask()">
+                        <button id="add-task-button" class="btn btn-circle pull-right" ng-click="displayCreateTaskPopup(workflow)">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>        
@@ -228,6 +228,7 @@
 </ul>
  
 <!-- Workflow Mustache Template -->
+<!--
 <script id="workflow-template" type="text/html">
 <div id="{{name}}" class='col-lg-4 col-lg-4' ng-model="workflowId" ng-init="workflowId={{id}}">
     <div class='panel panel-default'>
@@ -246,8 +247,9 @@
     </div>
 </div>
 </script>
-
+-->
 <!-- Task Mustache Template -->
+<!--
 <script id="task-template" type="text/html">
     <li id="{{_id}}" class="list-group-item">
         <a href="#" class="task-link" onclick='displayTaskDetailPopup("{{name}}")'>
@@ -256,14 +258,9 @@
         <span class="show-menu">
         <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
         </span>
-        <!--
-        <ul class="list-group-submenu">
-            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
-            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
-        </ul>
-        -->
         </a>
     </li>   
 </script>
+-->
 
 </body>
