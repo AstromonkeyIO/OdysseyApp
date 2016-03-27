@@ -32,8 +32,8 @@ odysseyApp.service('UserService', function($http) {
 
 odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider){
   $routeProvider.when('/', {
-    controller: 'testController',
-    templateUrl: 'test.html'
+    controller: 'loginController',
+    templateUrl: '/html/login.html'
   })
   .when('/test2', {
     controller: 'testController',

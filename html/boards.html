@@ -18,13 +18,12 @@
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-left">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
+								<li><a href="#">Profile</a></li>
+								<li><a href="#">Settings</a></li>
+								<li><a href="#">Logout</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#">Separated link</a></li>
 							</ul>
 						</li>
 						<form class="navbar-form navbar-left" role="search">
@@ -48,13 +47,13 @@
 			</button>
 			<!-- Modal -->
 			<div class="modal fade" id="createBoardPopup" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
+			aria-labelledby="myModalLabel" aria-hidden="true" ng-model="boardPopupState">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<!-- Modal Header -->
 					<div class="modal-header">
 						<button type="button" class="close"
-						data-dismiss="modal">
+						data-dismiss="modal" ng-click="dismissBoardPopup()">
 						<span aria-hidden="true">&times;</span>
 						<span class="sr-only">Close</span>
 					</button>
@@ -64,27 +63,7 @@
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<!--
-	                <form ng-submit="createBoard()" name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
-	                	<div class="form-group">
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-plus fa-fw"></i></span>
-								<input class="form-control"
-									id="exampleInputEmail1" ng-model="newBoardTitle" placeholder="Board Title"/>
-							</div>
-						</div>
-						<div class="form-group">
-		                    <div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-								<input class="form-control" id="exampleInputPassword1" ng-model="newBoardDescription" placeholder="Description"/>
-		                    </div> 
-		                </div>
-		                <div class="modal-footer">                                                                     
-	                    	<button type="submit" class="btn btn-primary">Login</button>
-	                    </div>
-	                </form> 
-					-->
-					<form role="form" ng-submit="createBoard()" method="POST">
+					<form role="form" ng-submit="submitBoardForm()" method="POST">
 						<div class="form-group">
 							<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-plus fa-fw"></i></span>
@@ -93,11 +72,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-								<div class = "input-group">
-									<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
-									<input class="form-control"
-									id="exampleInputPassword1" ng-model="newBoardDescription" placeholder="Description"/>
-								</div>
+							<div class = "input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input class="form-control"
+								id="exampleInputPassword1" ng-model="newBoardDescription" placeholder="Description"/>
+							</div>
 						</div>
 						<div class="form-group">
 							<div class = "input-group">
@@ -110,8 +89,8 @@
 						</div>
 					</form>					
 				</div>
+			</div>
 		</div>
-	</div>
 </div>
 	<div>
 		<ul ng-repeat="board in boardsList">
@@ -121,7 +100,7 @@
 					<div> {{board.description}}</div>
 				</a>
 				<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id)"><i class="glyphicon glyphicon-remove"></i></button>
-				<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="deleteBoard(board._id)"><i class="glyphicon glyphicon-cog"></i></button>
+				<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board)"><i class="glyphicon glyphicon-cog"></i></button>
 			</li>	
 		</ul>
 	</div>

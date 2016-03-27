@@ -45,9 +45,14 @@
     display: block;
 }
 
-.workflow {
+.workflow-list {
 	list-style-type: none;
 	list-style: none;
+
+}
+
+.workflow {
+	max-height: 400px;
 
 }
 
@@ -126,7 +131,7 @@
 
 
 .list-group {
-	overflow: hidden;
+	//overflow: hidden;
 	border-left: 1px solid rgb(221, 221, 221);
 	border-right: 1px solid rgb(221, 221, 221);
 }

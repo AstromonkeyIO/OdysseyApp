@@ -3,6 +3,9 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 	$scope.boardsList = [];
 	$scope.num = 0;
 
+	$scope.boardPopupState = "create";
+	$scope.editBoardId = "";
+
 	$.ajax({ 
 		type: "GET",
 		url: "http://odysseyapistaging.herokuapp.com/api/boards",
@@ -30,29 +33,64 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 		}
 	});
 
-	$scope.createBoard = function(){
+	$scope.submitBoardForm = function(){
 
-		$.ajax({ 
-			type: "POST",
-			url: "http://odysseyapistaging.herokuapp.com/api/boards",
-			data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription}),
-			crossDomain: true,
-			dataType: "json",
-			contentType: 'application/json',
-			processData: false,
-			success: function(board) {
-				
-				$scope.boardsList.push(board);
+		if($scope.boardPopupState == "create") {
 
-				$scope.$apply();
+			$.ajax({ 
+				type: "POST",
+				url: "http://odysseyapistaging.herokuapp.com/api/boards",
+				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription}),
+				crossDomain: true,
+				dataType: "json",
+				contentType: 'application/json',
+				processData: false,
+				success: function(board) {
+					
+					$scope.boardsList.push(board);
+					$scope.$apply();
+					$('#createBoardPopup').modal('hide')
 
-				$('#createBoardPopup').modal('hide')
+				},
+				error: function(error) {
+				  console.log(error);
+				}
+			});
 
-			},
-			error: function(error) {
-			  console.log(error);
-			}
-		});
+		} else {
+			
+			// send api cal to edit the board
+			boardId = $scope.editBoardId;	
+
+			$.ajax({ 
+				type: "PUT",
+				url: "http://odysseyapistaging.herokuapp.com/api/boards/"+boardId,
+				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription}),
+				crossDomain: true,
+				dataType: "json",
+				contentType: 'application/json',
+				processData: false,
+				success: function(board) {
+					
+					console.log(board);
+					for(i = 0; i < $scope.boardsList.length; i++) {
+						if($scope.boardsList[i]._id == board._id) {
+
+							$scope.boardsList[i] = board;
+							$scope.editBoardId = "";
+							$scope.$apply();
+							$('#createBoardPopup').modal('hide');
+							break;
+						}
+					}
+
+				},
+				error: function(error) {
+				  console.log(error);
+				}
+			});
+
+		}
 
 	};
 
@@ -68,7 +106,6 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 			processData: false,
 			success: function(board) {
 				
-				console.log(board);
 				for(i = 0; i < $scope.boardsList.length; i++) {
 					if($scope.boardsList[i]._id == boardId) {
 						console.log(i);
@@ -84,5 +121,22 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 		});
 
 	};
+
+	$scope.editBoard = function(board) {
+		
+		$('#createBoardPopup').modal('show');
+		$scope.newBoardTitle = board.title;
+		$scope.newBoardDescription = board.description;
+		$scope.boardPopupState = "edit";
+		$scope.editBoardId = board._id;		
+
+	};
+
+	$scope.dismissBoardPopup = function() {
+
+		$scope.newBoardTitle = "";
+		$scope.newBoardDescription = "";
+		$scope.boardPopupState = "create";			
+	}
 
 });

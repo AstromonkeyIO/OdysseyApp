@@ -3,6 +3,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.workflows = [];
     $scope.boardId = $routeParams.boardId;
+    $scope.taskFormState = "";
 
     $scope.workflow = function(name) {
         this.name = name;
@@ -21,6 +22,20 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             }
 
         };
+        this.editTask = function(task) {
+
+            for(i = 0; i < this.tasks.length; i++) {
+
+                if(this.tasks[i]._id == task._id) {
+
+                    this.tasks[i] = task;
+                    console.log(this.tasks[i]);
+
+                }
+
+            }
+
+        }
     };
 
     $scope.$on('$routeChangeSuccess', function() {
@@ -90,48 +105,17 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.targetedWorkflow;
 
-    $scope.displayCreateTaskPopup = function(workflow) {
+    $scope.addTask = function(workflow) {
 
-      $scope.targetedWorkflow = workflow;
-      document.getElementById('create-task-popup').style.display='block';
-      document.getElementById('fade').style.display='block';
-
-    }
-
-    $scope.createNewTask = function() {
-
-        $.ajax({ 
-            type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/tasks",
-            data: JSON.stringify({ "title": $scope.createTaskForm.taskName, "description": $scope.createTaskForm.description, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow.name}),
-            crossDomain: true,
-            dataType: "json",
-            contentType: 'application/json',
-            processData: false,
-            success: function(task) {
-                
-                if(typeof(task.code) != 'undefined') 
-                {
-                    console.log(task.code);
-                }
-                else 
-                {
-                    $scope.targetedWorkflow.tasks.push(task);
-                    $scope.$apply();
-                    $scope.dismissCreateTaskPopupButtonClicked(); 
-                }
-
-            },
-            error: function(error) {
-              console.log(error);
-            }
-        });
+        $scope.targetedWorkflow = workflow;
+        $scope.taskFormState = "create";
+        document.getElementById('create-task-popup').style.display='block';
+        document.getElementById('fade').style.display='block';
 
     }
 
     $scope.deleteTask = function(taskId, workflow) {
         
-
         workflow.deleteTask(taskId);
 
         $.ajax({ 
@@ -149,8 +133,78 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             }
         });
 
-    }    
+    }
 
+    $scope.editTask = function(task, workflow) {
+    
+        $scope.taskFormState = "edit";
+
+        document.getElementById('create-task-popup').style.display='block';
+        document.getElementById('fade').style.display='block';  
+
+        $scope.taskFormId = task._id;
+        $scope.taskFormName = task.title;
+        $scope.taskFormDescription = task.description;
+        $scope.taskFormWorkflow = workflow;
+
+    }
+
+
+    $scope.submitTaskForm = function() {
+
+        if($scope.taskFormState == "create") {        
+
+            $.ajax({ 
+                type: "POST",
+                url: "http://odysseyapistaging.herokuapp.com/api/tasks",
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow.name}),
+                crossDomain: true,
+                dataType: "json",
+                contentType: 'application/json',
+                processData: false,
+                success: function(task) {
+                    
+                    if(typeof(task.code) != 'undefined') 
+                    {
+                        console.log(task.code);
+                    }
+                    else 
+                    {
+                        $scope.targetedWorkflow.tasks.push(task);
+                        $scope.$apply();
+                        $scope.dismissCreateTaskPopupButtonClicked(); 
+                    }
+
+                },
+                error: function(error) {
+                  console.log(error);
+                }
+            });
+        }
+        else {
+
+            // edit task and save to database
+            $.ajax({ 
+                type: "PUT",
+                url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow": $scope.taskFormWorkflow.name}),                
+                crossDomain: true,
+                dataType: "json",
+                contentType: 'application/json',
+                processData: false,
+                success: function(task) {
+                    $scope.taskFormWorkflow.editTask(task);
+                    $scope.$apply();
+                    $scope.dismissCreateTaskPopupButtonClicked(); 
+                },
+                error: function(error) {
+                  console.log(error);
+                }
+            });
+
+        }
+
+    }
 
   $scope.addWorkflowButtonClicked = function() 
   {
@@ -166,7 +220,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     document.getElementById('light').style.display='none';
     document.getElementById('fade').style.display='none';
     $('#create-new-workflow-input').val("");    
-      $('#create-new-workflow-button').attr("disabled", true);  
+    $('#create-new-workflow-button').attr("disabled", true);  
     $scope.clearAddNewWorkflowForm();
 
   }
@@ -219,15 +273,15 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
   $scope.clearCreateTaskForm = function()
   {
 
-    $scope.createTaskForm.taskName = "";
-    $scope.createTaskForm.description = "";
-    $scope.createTaskForm.date = "";
-    $scope.createTaskForm.assignee = "";
+    $scope.taskFormName = "";
+    $scope.taskFormDescription = "";
+    $scope.taskFormDate = "";
+    $scope.taskFormAssignee = "";
     $('#create-new-task-button').attr("disabled", true);    
-
 
   }
 
+/*
   $scope.displayTaskDetailPopup = function(taskName)
   {
     console.log("here");
@@ -238,7 +292,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     $('#task-name-input').val(taskName);
 
   }
-
+*/
   function test1 () {
     console.log("test 1");
   }
