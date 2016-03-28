@@ -170,6 +170,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     }
                     else 
                     {
+                        console.log(task);
                         $scope.targetedWorkflow.tasks.push(task);
                         $scope.$apply();
                         $scope.dismissCreateTaskPopupButtonClicked(); 

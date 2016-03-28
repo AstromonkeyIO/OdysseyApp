@@ -13,17 +13,21 @@
 
 #add-task-button
 {
-
 	height:50px; 
 	width:50px; 
 	border-radius:50%; 
 	background-color:#0074D9; 
 	color:white; 
 	outline:none;
-
 }
 
 
+.task-detail {
+	word-break:break-all; 
+	margin-right: 10px;
+	display: none;
+
+}
 
 .task-remove-button {
 	float: left;
@@ -37,6 +41,10 @@
 	margin-right: 2px;
 }
 
+.task-box:hover .task-detail {
+    display: block;
+}
+
 .task-box:hover .task-remove-button {
     display: block;
 }
@@ -44,6 +52,9 @@
 .task-box:hover .task-edit-button {
     display: block;
 }
+
+
+
 
 .workflow-list {
 	list-style-type: none;
@@ -150,11 +161,13 @@
 	-o-transition: all 0.5s ease-in-out;
 	-ms-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
+	
 }
 .list-group-item > .task-link >.show-menu {
 	position: absolute;
 	height: 100%; width:24px;
 	top: 0px; right: 0px;
+	text-decoration: none !important;
 	background-color: rgba(51, 51, 51, 0.2);
 	cursor: pointer;
 	-webkit-transition: all 0.5s ease-in-out;

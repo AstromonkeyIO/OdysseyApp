@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <title>Page Title</title>
-<link href="/css/workflow.css?v=1" rel="stylesheet"  type="text/css">
+<link href="/css/workflow.css" rel="stylesheet"  type="text/css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
 <body id="body" ng-controller="workflowController">
 <nav class="navbar navbar-default" role="navigation">
@@ -210,12 +210,14 @@
                         <div class='panel-body'>
                         <ul class='list-group' ng-repeat="task in workflow.tasks">
                             <li id="{{task._id}}" class="list-group-item task-box">
-                                <a href="#" class="task-link">
-                                <p style="word-break:break-all; margin-right: 10px; font-size: medium;">Task : {{task.title}}</p>
-                                <p ng-if="task.description" style="word-break:break-all; margin-right: 10px;">Detail : {{task.description}}</p>
+                                <a href="#" style="text-decoration: none !important;" class="task-link">
+                                <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.title}}</p>
+                                <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <div>{{task.creator.username}}</div>
                                 <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow)"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-info btn-md task-edit-button" ng-click="editTask(task, workflow)"><i class="glyphicon glyphicon-cog"></i></button>
+                                <button type="button" class="btn btn-info btn-md task-edit-button">50%</button>
+                                <button type="button" class="btn btn-default btn-md task-edit-button"><i class="glyphicon glyphicon-calendar"></i>  04/23/16</button>
                                 <span class="show-menu">
                                 <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
                                 </span>

@@ -15,7 +15,6 @@ odysseyApp.controller('loginController', function($scope, $location, $window, Au
         console.log(UserService.getCurrentUser()); 
         //AuthService.setCurrentUser(user);
         //console.log(AuthService.getCurrentUser());        
-        
         $window.location.href = '/#/boards';
 
       },
