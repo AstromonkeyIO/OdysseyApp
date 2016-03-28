@@ -38,8 +38,56 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         }
     };
 
-    $scope.$on('$routeChangeSuccess', function() {
+    $.ajax({ 
+        type: "GET",
+        url: "http://odysseyapistaging.herokuapp.com/api/tasks?boardId=" + $routeParams.boardId,
+        crossDomain: true,
+        dataType: "json",
+        contentType: 'application/json',
+        processData: false,
+        success: function(tasks) {
 
+            console.log(tasks);
+            for(i = 0; i < tasks.length; i++)
+            {
+
+                var workflowExist = false;
+
+                // if the workflow currently exists on the page, add the task to the existing workflow
+                for(k = 0; k < $scope.workflows.length; k++)
+                {
+
+                    if($scope.workflows[k].name == tasks[i].workflow)
+                    {
+                        $scope.workflows[k].addTask(tasks[i]);
+                        $scope.$apply();
+                        workflowExist = true;
+                    }
+
+                }
+
+                // if the workflow doesn't exist create a new one
+                if(workflowExist == false)
+                {
+                    var newWorkflow = new $scope.workflow(tasks[i].workflow);
+                    
+                    if(newWorkflow.name == tasks[i].workflow)
+                        newWorkflow.addTask(tasks[i]);
+
+                    $scope.workflows.push(newWorkflow);
+
+                }
+
+            }
+            $scope.$apply();
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    }); 
+
+    $scope.$on('$routeChangeSuccess', function() {
+        /*
         $.ajax({ 
             type: "GET",
             url: "http://odysseyapistaging.herokuapp.com/api/tasks?boardId=" + $routeParams.boardId,
@@ -86,7 +134,8 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             error: function(error) {
                 console.log(error);
             }
-        });      
+        }); 
+        */     
 
     });
 
