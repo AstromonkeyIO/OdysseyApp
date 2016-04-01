@@ -148,7 +148,7 @@
         <form ng-submit="addNewWorkflow()" style="text-align:center; margin-top: 100px;">
             <div class="input-group" style="margin:20px;">
                 <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
-                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Type in the name of your new workflow!" ng-model="newWorkflowName" ng-keyup="checkDataInCreateNewWorkflowInput()">
+                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Title of your new workflow!" ng-model="newWorkflowTitle" ng-keyup="checkDataInCreateNewWorkflowInput()">
             </div>
             <div style="margin:20px;">
             <button id="create-new-workflow-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" disabled>Create</button>
@@ -201,10 +201,10 @@
 
 <ul ng-repeat="workflow in workflows" class="workflow-list">
     <li>
-        <div id="{{workflow.name}" class='col-lg-4 col-lg-4' ng-model="workflowId">
+        <div id="{{workflow._id}" class='col-lg-4 col-lg-4' ng-model="workflowId">
             <div class='panel panel-default'>
                 <div class='panel-heading'>
-                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.name}}</a></h4>
+                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.title}}</a></h4>
                     </div>
                         <div id='collapseOne' class='panel-collapse collapse in'>
                         <div class='panel-body'>
@@ -215,7 +215,7 @@
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <div>{{task.creator.username}}</div>
                                 <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow)"><i class="glyphicon glyphicon-remove"></i></button>
-                                <button type="button" class="btn btn-info btn-md task-edit-button" ng-click="editTask(task, workflow)"><i class="glyphicon glyphicon-cog"></i></button>
+                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow)"><i class="glyphicon glyphicon-cog"></i></button>
                                 <button type="button" class="btn btn-info btn-md task-edit-button">50%</button>
                                 <button type="button" class="btn btn-success btn-md task-edit-button"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
                                 <span class="show-menu">

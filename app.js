@@ -35,10 +35,6 @@ odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider
     controller: 'loginController',
     templateUrl: '/html/login.html'
   })
-  .when('/test2', {
-    controller: 'testController',
-    templateUrl: 'test.html'
-  })
   .when('/login', {
     controller: 'loginController',
     templateUrl: '/html/login.html'
@@ -51,7 +47,7 @@ odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider
     controller: 'workflowController',
     templateUrl: '/html/workflow.html'
   })
-  .otherwise({redirectTo: '/'});
+  .otherwise({redirectTo: '/login'});
   
   $locationProvider.html5Mode(true);
 

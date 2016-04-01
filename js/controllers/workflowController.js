@@ -5,9 +5,11 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     $scope.boardId = $routeParams.boardId;
     $scope.taskFormState = "";
 
-    $scope.workflow = function(name) {
-        this.name = name;
-        this.tasks = [];
+    $scope.workflow = function(workflowObject) {
+        
+        this.title = workflowObject.title;
+        this.tasks = workflowObject.tasks;
+        this.taskIds = [];
         this.addTask = function(newTask) {
             this.tasks.push(newTask);
         };
@@ -40,43 +42,18 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $.ajax({ 
         type: "GET",
-        url: "http://odysseyapistaging.herokuapp.com/api/tasks?boardId=" + $routeParams.boardId,
+        url: "http://odysseyapistaging.herokuapp.com/api/boards/" + $routeParams.boardId + "/workflows",
         crossDomain: true,
         dataType: "json",
         contentType: 'application/json',
         processData: false,
-        success: function(tasks) {
+        success: function(workflows) {
 
-            console.log(tasks);
-            for(i = 0; i < tasks.length; i++)
+            console.log(workflows);
+            for(i = 0; i < workflows.length; i++)
             {
 
-                var workflowExist = false;
-
-                // if the workflow currently exists on the page, add the task to the existing workflow
-                for(k = 0; k < $scope.workflows.length; k++)
-                {
-
-                    if($scope.workflows[k].name == tasks[i].workflow)
-                    {
-                        $scope.workflows[k].addTask(tasks[i]);
-                        $scope.$apply();
-                        workflowExist = true;
-                    }
-
-                }
-
-                // if the workflow doesn't exist create a new one
-                if(workflowExist == false)
-                {
-                    var newWorkflow = new $scope.workflow(tasks[i].workflow);
-                    
-                    if(newWorkflow.name == tasks[i].workflow)
-                        newWorkflow.addTask(tasks[i]);
-
-                    $scope.workflows.push(newWorkflow);
-
-                }
+                $scope.workflows.push(workflows[i]);
 
             }
             $scope.$apply();
@@ -85,70 +62,40 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             console.log(error);
         }
     }); 
-
+    
+    /*
     $scope.$on('$routeChangeSuccess', function() {
-        /*
+    
+    });
+    */
+
+    $scope.addNewWorkflow = function() {
+
+
+        console.log("I'm here");
         $.ajax({ 
-            type: "GET",
-            url: "http://odysseyapistaging.herokuapp.com/api/tasks?boardId=" + $routeParams.boardId,
+            type: "POST",
+            url: "http://odysseyapistaging.herokuapp.com/api/workflows",
+            data: JSON.stringify({ "title": $scope.newWorkflowTitle, "boardId": $scope.boardId}),
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
             processData: false,
-            success: function(tasks) {
-
-                console.log(tasks);
-                for(i = 0; i < tasks.length; i++)
-                {
-
-                    var workflowExist = false;
-
-                    // if the workflow currently exists on the page, add the task to the existing workflow
-                    for(k = 0; k < $scope.workflows.length; k++)
-                    {
-
-                        if($scope.workflows[k].name == tasks[i].workflow)
-                        {
-                            $scope.workflows[k].addTask(tasks[i]);
-                            $scope.$apply();
-                            workflowExist = true;
-                        }
-
-                    }
-
-                    // if the workflow doesn't exist create a new one
-                    if(workflowExist == false)
-                    {
-                        var newWorkflow = new $scope.workflow(tasks[i].workflow);
-                        
-                        if(newWorkflow.name == tasks[i].workflow)
-                            newWorkflow.addTask(tasks[i]);
-
-                        $scope.workflows.push(newWorkflow);
-
-                    }
-
-                }
+            success: function(workflow) {
+                
+                $scope.workflows.push(workflow);
                 $scope.$apply();
+                document.getElementById('light').style.display='none';
+                document.getElementById('fade').style.display='none';
+                $('#create-new-workflow-input').val("");    
+                $('#create-new-workflow-button').attr("disabled", true);  
+                $scope.clearAddNewWorkflowForm();                
+
             },
             error: function(error) {
-                console.log(error);
+              console.log(error);
             }
-        }); 
-        */     
-
-    });
-
-    $scope.addNewWorkflow = function() {
-
-        var newWorkflow = new $scope.workflow($scope.newWorkflowName);
-        $scope.workflows.push(newWorkflow)
-        document.getElementById('light').style.display='none';
-        document.getElementById('fade').style.display='none';
-        $('#create-new-workflow-input').val("");    
-        $('#create-new-workflow-button').attr("disabled", true);  
-        $scope.clearAddNewWorkflowForm();
-        //$scope.$apply();
+        });        
 
     }
 
@@ -165,7 +112,14 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.deleteTask = function(taskId, workflow) {
         
-        workflow.deleteTask(taskId);
+        for(i = 0; i < workflow.tasks.length; i++) {
+
+            if(workflow.tasks[i]._id == taskId)
+            {
+                workflow.tasks.splice(i, 1);
+            }
+
+        }
 
         $.ajax({ 
             type: "DELETE",
@@ -205,26 +159,20 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
             $.ajax({ 
                 type: "POST",
-                url: "http://odysseyapistaging.herokuapp.com/api/tasks",
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow.name}),
+                url: "http://odysseyapistaging.herokuapp.com/api//workflows/"+ $scope.targetedWorkflow._id +"/tasks",
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow": $scope.targetedWorkflow._id}),
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
                 processData: false,
                 success: function(task) {
                     
-                    if(typeof(task.code) != 'undefined') 
-                    {
-                        console.log(task.code);
-                    }
-                    else 
-                    {
-                        console.log(task);
-                        $scope.targetedWorkflow.tasks.push(task);
-                        $scope.$apply();
-                        $scope.dismissCreateTaskPopupButtonClicked(); 
-                    }
-
+                    console.log("i'm here");
+                    console.log(task);
+                    $scope.targetedWorkflow.tasks.push(task);
+                    $scope.$apply();
+                    $scope.dismissCreateTaskPopupButtonClicked(); 
+                    
                 },
                 error: function(error) {
                   console.log(error);
