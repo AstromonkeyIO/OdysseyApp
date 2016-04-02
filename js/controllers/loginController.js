@@ -1,4 +1,4 @@
-odysseyApp.controller('loginController', function($scope, $location, $window, AuthService, UserService) {
+odysseyApp.controller('loginController', function($rootScope, $scope, $location, $document, currentUserService) {
 
   $scope.submit = function() {
 
@@ -11,34 +11,21 @@ odysseyApp.controller('loginController', function($scope, $location, $window, Au
       processData: false,
       success: function(user) {
 
-        UserService.setCurrentUser(user);
-        console.log(UserService.getCurrentUser()); 
-        //AuthService.setCurrentUser(user);
-        //console.log(AuthService.getCurrentUser());        
-        $window.location.href = '/#/boards';
+        $rootScope.currentUser = user; 
+
+        //console.log($scope.color);
+        $document.cookie = user;
+        currentUserService.setCurrentUser(user);
+        console.log($document.cookie);
+        $location.path("/boards");
+        $scope.$apply();
 
       },
       error: function(error) {
         console.log(error);
       }
     });
-      /*
-      $.ajax({ 
-        type: "POST",
-        url: "http://odysseyapistaging.herokuapp.com/api/users",
-        data: JSON.stringify({ "username": $scope.username, "password": $scope.password}),
-        crossDomain: true,
-        dataType: "json",
-        contentType: 'application/json',
-        processData: false,
-        success: function(r) {
-          console.log(r);
-          console.log(r.username);
-        },
-        error: function(error) {
-          console.log(error);
-        }
-      });
-      */
+
+
   }
 });

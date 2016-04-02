@@ -1,36 +1,20 @@
 
 var odysseyApp = angular.module('odysseyApp', ['ngRoute']);
 
-// for creating current user session
-odysseyApp.factory( 'AuthService', function($http, $q, $rootScope) {
-  var currentUser = "yo";
+odysseyApp.service('currentUserService', function(){
+    this.currentUser = {};
 
-  return {
-
-    getCurrentUser: function() {
-        return currentUser;
-    },
-    setCurrentUser: function(u){
-        currentUser = u;
-    }
-  }
-});
-
-odysseyApp.service('UserService', function($http) {
-    this.currentUser; 
     this.setCurrentUser = function(user) {
         this.currentUser = user;
-    };
+    }
+
     this.getCurrentUser = function() {
         return this.currentUser;
-    };
-    this.hello = function() {
-        return "Hello, World!"
-    };
+    }
 });
 
-
 odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider){
+
   $routeProvider.when('/', {
     controller: 'loginController',
     templateUrl: '/html/login.html'

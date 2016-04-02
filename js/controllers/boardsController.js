@@ -1,11 +1,13 @@
-odysseyApp.controller('boardsController', function($scope, $routeParams, AuthService, UserService) {
+odysseyApp.controller('boardsController', function($rootScope, $scope, $routeParams, $document, currentUserService) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
 
 	$scope.boardPopupState = "create";
 	$scope.editBoardId = "";
-
+    
+    $scope.currentUser = currentUserService.getCurrentUser();
+    console.log(currentUserService.getCurrentUser());
 	$.ajax({ 
 		type: "GET",
 		url: "http://odysseyapistaging.herokuapp.com/api/boards",
@@ -40,7 +42,7 @@ odysseyApp.controller('boardsController', function($scope, $routeParams, AuthSer
 			$.ajax({ 
 				type: "POST",
 				url: "http://odysseyapistaging.herokuapp.com/api/boards",
-				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription}),
+				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription, "creatorId": $scope.currentUser._id }),
 				crossDomain: true,
 				dataType: "json",
 				contentType: 'application/json',

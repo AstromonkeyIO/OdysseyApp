@@ -34,169 +34,88 @@
 </nav>
 <div class="container">       
    <div id="workflow-container" class="row">
-        <!--
-        <div class="col-lg-4 col-lg-4">
-        <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">To-Do</a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        <div style="word-wrap: break-word; margin-right: 7px;">
-                                        Walk my dog
-                                        </div>
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        Complete Project
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        Grab a Beer with Friends.
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item info"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTaskButtonClicked(this)">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                </button>
-                            </div>
+
+    <div class="modal fade" id="workflow-form" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height:220px;">
+                <!-- Modal Header -->
+                <button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" style="margin:20px;"><i class="glyphicon glyphicon-remove" ng-click="dismissWorkflowForm()"></i></button>
+                <!-- Modal Body -->
+                <div class="modal-body" style="margin-top: 30px;"> 
+                    <form ng-submit="addNewWorkflow()" style="text-align:center;">
+                        <div class="input-group" style="margin:20px;">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                            <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Workflow!" ng-model="newWorkflowTitle" ng-keyup="checkDataInCreateNewWorkflowInput()">
                         </div>
-                </div>
-        </div>
-        <div class="col-lg-4 col-lg-4">
-        <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Pending</a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        Vet Appointment!
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item success"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        Complete Project
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="#" class="task-link">
-                                        Grab a Beer with Friends.
-                                        <span class="show-menu">
-                                            <span class="glyphicon glyphicon-chevron-right"></span>
-                                        </span>
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item info"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item"><span class="glyphicon glyphicon-ok"></span></li>
-                                        </ul>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <button id="add-task-button" class="btn btn-circle pull-right" ng-click="createNewTaskButtonClicked()">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                </button>
-                            </div>
+                        <div style="margin:20px;">
+                        <button id="create-new-workflow-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" ng-disabled="!newWorkflowTitle">Create</button>
                         </div>
+                    </form>                               
                 </div>
+            </div>
         </div>
-    </div>
-    -->
-    <!-- Popup View --> 
-    <div id="light" class="white_content"><button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" ng-click = "dismissPopupButtonClicked()"><i class="glyphicon glyphicon-remove"></i></button>
-        <form ng-submit="addNewWorkflow()" style="text-align:center; margin-top: 100px;">
-            <div class="input-group" style="margin:20px;">
-                <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
-                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Title of your new workflow!" ng-model="newWorkflowTitle" ng-keyup="checkDataInCreateNewWorkflowInput()">
-            </div>
-            <div style="margin:20px;">
-            <button id="create-new-workflow-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" disabled>Create</button>
-            </div>
-        </form>
     </div>
 
-    <!-- Create Task Popup View -->
-    <div id="create-task-popup"><button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" ng-click = "dismissCreateTaskPopupButtonClicked()"><i class="glyphicon glyphicon-remove"></i></button>
-        <form ng-submit="submitTaskForm()" style="text-align:center; margin-top: 43px;">
-            <div class="input-group" style="margin:20px;">
-                <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
-                <input id="task-name-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Task" ng-model="taskFormName" required>
-            </div>
-            <div class="input-group" style="margin:20px;">
-                    <span class="input-group-addon success"><span class="glyphicon glyphicon-pencil"></span></span>
-                    <textarea class="form-control" name="description" placeholder="Description" rows="3" ng-model="taskFormDescription"></textarea>    
-            </div>
-            <div class="input-group" style="margin:20px;">
-                    <div style="float:left">
-                    <div class="input-group">
-                    <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
-                    <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
-                    <!--Due Date: <input type="date" name="bday">-->
-                    </div>
-                    </div>
-                    <div style="float:right; margin-left:15px;">
-                    Priority: <div class="btn-group btn-group-md" role="group" aria-label="...">
-                      <button type="button" class="btn btn-success">Low</button>
-                      <button type="button" class="btn btn-warning">Medium</button>
-                      <button type="button" class="btn btn-danger">High</button>
-                    </div>
-                    </div>
-            </div>
-            <div class="input-group" style="margin:20px;">
-                <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
-                <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="assignee" ng-model="taskFormAssignee">
-            </div>
-            <div style="margin:20px;">
-            <button id="create-task-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" ng-disabled="!taskFormName">Create</button>
-            </div>
-        </form>
-    </div>
     <!-- Add Workflow Button -->
-    <button id="add-workflow-button" type="button" class="btn btn-circle btn-lg" ng-click="addWorkflowButtonClicked()"><i class="glyphicon glyphicon-plus"></i></button>
-    
-    <!-- Black Background Overlay for Popup Display -->       
-    <div id="fade" class="black_overlay"></div>
+    <button id="add-workflow-button" type="button" class="btn btn-circle btn-lg" data-toggle="modal" data-target="#workflow-form"><i class="glyphicon glyphicon-plus"></i></button>
+
+
+    <!-- Create and Edit Task Popup -->
+    <div class="modal fade" id="task-form" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" ng-model="boardPopupState">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height:500px;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-align: center">
+                {{taskFormState}} Task
+                </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form ng-submit="submitTaskForm()" style="text-align:center;">
+                        <div class="input-group" style="margin:20px;">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                            <input id="task-name-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Task" ng-model="taskFormName" required>
+                        </div>
+                        <div class="input-group" style="margin:20px;">
+                                <span class="input-group-addon success"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <textarea class="form-control" name="description" placeholder="Description" rows="3" ng-model="taskFormDescription"></textarea>    
+                        </div>
+                        <div class="input-group" style="margin:20px;">
+                                <div style="float:left">
+                                <div class="input-group">
+                                <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
+                                <!--Due Date: <input type="date" name="bday">-->
+                                </div>
+                                </div>
+                                <div style="float:right; margin-left:15px;">
+                                Priority: <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                  <button type="button" class="btn btn-success">Low</button>
+                                  <button type="button" class="btn btn-warning">Medium</button>
+                                  <button type="button" class="btn btn-danger">High</button>
+                                </div>
+                                </div>
+                        </div>
+                        <div class="input-group" style="margin:20px;">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
+                            <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
+                        </div>
+                        <ul ng-repeat="assignee in assignees" style="padding:0; posiition: absolute;">
+                            <li>{{assignee}}</li>
+                        </ul>
+                        <div style="margin:20px;">
+                        <button id="create-task-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" style="text-transform: uppercase;" ng-disabled="!taskFormName">{{taskFormState}}</button>
+                        </div>
+                    </form>                
+                </div>
+        </div>
+    </div>
+    </div>
+    <!---->    
 </div>
 
 <ul ng-repeat="workflow in workflows" class="workflow-list">
@@ -215,7 +134,7 @@
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <div>{{task.creator.username}}</div>
                                 <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow)"><i class="glyphicon glyphicon-remove"></i></button>
-                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow)"><i class="glyphicon glyphicon-cog"></i></button>
+                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow)" data-toggle="modal" data-target="#task-form"><i class="glyphicon glyphicon-cog"></i></button>
                                 <button type="button" class="btn btn-info btn-md task-edit-button">50%</button>
                                 <button type="button" class="btn btn-success btn-md task-edit-button"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
                                 <span class="show-menu">
@@ -224,7 +143,7 @@
                                 </a>
                             </li> 
                         </ul>
-                        <button id="add-task-button" class="btn btn-circle pull-right" ng-click="addTask(workflow)">
+                        <button id="add-task-button" class="btn btn-circle pull-right" ng-click="addTask(workflow)" data-toggle="modal" data-target="#task-form">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
                         </div>
