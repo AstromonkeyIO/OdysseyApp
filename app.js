@@ -1,11 +1,12 @@
 
 var odysseyApp = angular.module('odysseyApp', ['ngRoute']);
 
-odysseyApp.service('currentUserService', function(){
+odysseyApp.service('currentUserService', function($rootScope, $document){
     this.currentUser = {};
 
     this.setCurrentUser = function(user) {
         this.currentUser = user;
+        $document.cookies = true;
     }
 
     this.getCurrentUser = function() {
@@ -35,7 +36,27 @@ odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider
   
   $locationProvider.html5Mode(true);
 
-}]);
+}]).run( function($rootScope, $location, currentUserService, $document) {
+
+    $rootScope.$on( "$routeChangeStart", function(event, next, currentUserService) {
+        console.log("im here");
+        
+        //console.log("user logged" +$rootScope.loggedInUser);
+        if($document.cookies == true) {
+            console.log("loggedin");
+
+        } else {
+            console.log("i'm loggedout")
+            //$location.path( "/login" );           
+        }
+        /*
+        if($rootScope.currentUserService.getCurrentUser()._id == null ) {
+            console.log("its null");
+            //$location.path( "/login" );
+        }
+        */
+    });        
+ });
 
 $(document).ready(function() {
     $("[rel='tooltip'], .tooltip").tooltip();
