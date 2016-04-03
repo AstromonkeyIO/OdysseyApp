@@ -16,6 +16,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         processData: false,
         success: function(workflows) {
 
+            console.log(workflows);
             for(i = 0; i < workflows.length; i++)
             {
 
@@ -103,32 +104,56 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormWorkflow = workflow;
-
+        
+        if(task.assignee) {
+            $scope.assignUserToTask(task.assignee);
+        }
     }
 
 
     $scope.submitTaskForm = function() {
+
+        var assigneeId;
+        if($scope.assignedUser != null)
+        {
+            assigneeId = $scope.assignedUser._id;
+        }
 
         if($scope.taskFormState == "create") {        
 
             $.ajax({ 
                 type: "POST",
                 url: "http://odysseyapistaging.herokuapp.com/api//workflows/"+ $scope.targetedWorkflow._id +"/tasks",
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow": $scope.targetedWorkflow._id}),
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId }),
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
                 processData: false,
                 success: function(task) {
                     
-                    console.log("i'm here");
                     console.log(task);
                     $scope.targetedWorkflow.tasks.push(task);
                     $scope.$apply();
                     $('#task-form').modal('hide');
                     $scope.clearTaskForm();
                     //$scope.dismissCreateTaskPopupButtonClicked(); 
-                    
+                    //send mail to task
+                    $.ajax({ 
+                        type: "POST",
+                        url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks",
+                        data: JSON.stringify({"recipientEmail": $scope.assignedUser.email, "assigner": $scope.currentUser.username, "task": task}),
+                        crossDomain: true,
+                        dataType: "json",
+                        contentType: 'application/json',
+                        processData: false,
+                        success: function(task) {
+                            
+                            console.log("mail sent");
+                        },
+                        error: function(error) {
+                          console.log(error);
+                        }
+                    });
                 },
                 error: function(error) {
                   console.log(error);
@@ -137,17 +162,21 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         }
         else {
 
+            console.log($scope.targetedWorkflow._id);
+
             // edit task and save to database
             $.ajax({ 
                 type: "PUT",
                 url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow":  $scope.targetedWorkflow._id}),                
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow":  $scope.targetedWorkflow._id, "assigneeId": assigneeId}),                
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
                 processData: false,
                 success: function(task) {
                     
+                    console.log("editted task ");
+                    console.log(task);
                     for(i = 0; i <  $scope.targetedWorkflow.tasks.length; i++) {
 
                         if($scope.targetedWorkflow.tasks[i]._id == task._id)
@@ -236,11 +265,12 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.assigneeInputKeyEvent = function(keyEvent) {
         console.log("i'm ere");
-        console.log($scope.taskFormAssignee);
+        //console.log($scope.taskFormAssignee);
         if($scope.taskFormAssignee == "")
         {
             $scope.assignees = [];         
         }
+        console.log($scope.taskFormAssignee);
 
         $.ajax({ 
           type: "GET",
@@ -261,6 +291,28 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             console.log(error);
           }
         });
+    }
+
+
+    $scope.assignUserToTask = function(assignee) {
+        console.log("assigned user");
+        $scope.assignedUser = assignee;
+        $(".assigneeInput").css("display", "none");
+        $scope.taskFormAssignee = "";
+        $scope.assignees = [];
+    }  
+
+    $scope.removeAssignee = function(assignee) {
+        $scope.assignedUser = null;
+        $(".assigneeInput").css("display", "block");
+    }   
+
+
+    $scope.dismissTaskForm = function() {
+        $scope.assignedUser = null;
+        $(".assigneeInput").css("display", "block");
+        $scope.taskFormAssignee = "";
+        $scope.assignees = [];
     }
 
 

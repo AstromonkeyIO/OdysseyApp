@@ -144,6 +144,21 @@
 
 }
 
+.assingeeInput {
+	display: block;
+	height: 46px;
+	font-size: 18px;
+
+}
+
+.assignedTo {
+	height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+
 .list-group {
 	//overflow: hidden;
 	border-left: 1px solid rgb(221, 221, 221);

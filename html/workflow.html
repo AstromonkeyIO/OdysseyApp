@@ -68,7 +68,7 @@
             <div class="modal-content" style="height:500px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" ng-click="dismissTaskForm()"><i class="glyphicon glyphicon-remove"></i></button>
                 <h4 class="modal-title" id="myModalLabel" style="text-align: center">
                 {{taskFormState}} Task
                 </h4>
@@ -100,15 +100,22 @@
                                 </div>
                                 </div>
                         </div>
-                        <div>
-                        <div class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;" >
-                            <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
-                            <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
+                        <div class="assigneeInput">
+                            <div class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;" >
+                                <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
+                                <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
+                            </div>
+                             <ul ng-repeat="assignee in assignees" style="padding:0; posiition: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
+                                <li><button type="button" ng-click="assignUserToTask(assignee)" style="width:100%; height:40px;">{{assignee.username}}</button></li>
+                            </ul>
                         </div>
-                         <ul ng-repeat="assignee in assignees" style="padding:0; posiition: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
-                            <li><button type="button" ng-click="addItem()" style="width:100%; height:40px;">{{assignee.username}}</button></li>
-                        </ul>
-                        </div>
+                        <div 
+                        <div ng-if="assignedUser" class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;">
+                            <div class="assigneeTo">
+                                <span><span class="glyphicon glyphicon-user"></span> Assigned to : {{assignedUser.username}}<button type="button" class="btn btn-danger btn-md" style="margin:5px;" ng-click="removeAssignee(assignedUser)"><i class="glyphicon glyphicon-remove"></i></button></span>
+                            </div>
+                        </div>                    
+
                         <!--
                         <div class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;" >
                             <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
