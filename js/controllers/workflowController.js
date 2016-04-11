@@ -7,6 +7,8 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.currentUser = currentUserService.getCurrentUser();
 
+    $scope.comments = [];
+
     $.ajax({ 
         type: "GET",
         url: "http://odysseyapistaging.herokuapp.com/api/boards/" + $routeParams.boardId + "/workflows",
@@ -104,6 +106,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormWorkflow = workflow;
+        $scope.comments = task.comments.reverse();
         
         if(task.assignee) {
             $scope.assignUserToTask(task.assignee);
@@ -316,20 +319,71 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     }
 
 
-  $scope.createNewTaskButtonClicked =function (workflowId)
-  {
-    console.log("yooyo");
+    $scope.createNewTaskButtonClicked = function (workflowId)
+    {
+        angular.element($('#body')).scope().createNewTaskButtonClicked(workflowId);
+    }
 
-    angular.element($('#body')).scope().createNewTaskButtonClicked(workflowId);
+    $scope.showTaskDetailsView = function() {
 
-  }
+        $(".task-details-view").css("display", "block");
+        $("#task-details-tab").addClass("active");
 
-  function displayTaskDetailPopup(taskName)
-  {
+        $(".task-comments-view").css("display", "none");
+        $("#task-comments-tab").removeClass("active");
+    }
 
-    angular.element($('#body')).scope().displayTaskDetailPopup(taskName);
-    return false;
+    $scope.showTaskCommentsView = function() {
 
-  }
+        $(".task-details-view").css("display", "none");
+        $("#task-details-tab").removeClass("active");
+
+        $(".task-comments-view").css("display", "block");
+        $("#task-comments-tab").addClass("active");
+
+    }
+
+    $scope.addComment = function(newComment) {
+
+        console.log($scope.taskFormId);
+        console.log($scope.currentUser);
+
+        $.ajax({ 
+            type: "POST",
+            url: "http://odysseyapistaging.herokuapp.com/api/comments/",
+            data: JSON.stringify({ "creatorId": $scope.currentUser._id, "taskId": $scope.taskFormId, "comment": newComment }),
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(comment) {
+                
+                comment.creator = $scope.currentUser;
+                $scope.newComment = "";
+                $scope.comments.push(comment);
+                $scope.$apply();
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }
+
+    $(document).keyup(function (e) {
+        if (e.which == 27 && $('body').hasClass('modal-open')) {
+            console.log('esc');
+
+        }
+    });
+
+
+    function displayTaskDetailPopup(taskName)
+    {
+
+        angular.element($('#body')).scope().displayTaskDetailPopup(taskName);
+        return false;
+
+    }
 
 });

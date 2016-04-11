@@ -16,25 +16,25 @@ odysseyApp.service('currentUserService', function($rootScope, $document){
 
 odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider){
 
-  $routeProvider.when('/', {
-    controller: 'loginController',
-    templateUrl: '/html/login.html'
-  })
-  .when('/login', {
-    controller: 'loginController',
-    templateUrl: '/html/login.html'
-  })
-  .when('/boards', {
-    controller: 'boardsController',
-    templateUrl: '/html/boards.html'
-  })
-  .when('/boards/:boardId', {
-    controller: 'workflowController',
-    templateUrl: '/html/workflow.html'
-  })
-  .otherwise({redirectTo: '/login'});
-  
-  $locationProvider.html5Mode(true);
+    $routeProvider.when('/', {
+        controller: 'loginController',
+        templateUrl: '/html/login.html'
+    })
+    .when('/login', {
+        controller: 'loginController',
+        templateUrl: '/html/login.html'
+    })
+    .when('/boards', {
+        controller: 'boardsController',
+        templateUrl: '/html/boards.html'
+    })
+    .when('/boards/:boardId', {
+        controller: 'workflowController',
+        templateUrl: '/html/workflow.html'
+    })
+    .otherwise({redirectTo: '/login'});
+
+    $locationProvider.html5Mode(true);
 
 }]).run( function($rootScope, $location, currentUserService, $document) {
 

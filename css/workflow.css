@@ -21,6 +21,17 @@
 	outline:none;
 }
 
+.task-comments-view {
+	display: none;
+	position: relative;
+	min-height: 380px;
+}
+
+.comment-input {
+	position: absolute;
+	bottom: 0px;
+
+}
 
 .task-detail {
 	word-break:break-all; 
