@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <link href="/css/boards.css" rel="stylesheet">
 <body ng-controller="boardsController">
-	<div class="container">	
+	<div class="container">
 		<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
 		    <div class="navbar-toggler animate">
 		        <span class="menu-icon"></span>
@@ -81,18 +81,18 @@
 		</div>
 		<div class="boards-container">
 			<ul ng-repeat="board in boardsList">
-				<li class="board">
+				<li>
 					<a ng-href="/boards/{{board._id}}">
-						<div>
+						<div class="board">
 						<h3>{{board.title}}</h3>
-						<div>{{board.description}}</div>
 						<div>By: {{board.creator.username}}</div>
-
-						<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id)"><i class="glyphicon glyphicon-remove"></i></button>
-						<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board)"><i class="glyphicon glyphicon-cog"></i></button>
+						<p>{{board.description}}</p>
+						<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
+						<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>
 						</div>
 					</a>
 				</li>	
 			</ul>
 		</div>
+	</div>
 </body>

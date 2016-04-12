@@ -161,6 +161,6 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
         })
     });
 
-	
+
 
 });

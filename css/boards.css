@@ -1,3 +1,9 @@
+a { color: inherit; } 
+
+a[ng-click]{
+    cursor: pointer;
+}
+
 .navbar-brand{
 	position: absolute;
 	width: 100%;
@@ -43,8 +49,7 @@ li{
 
 .container{
 	width: 100%;
-	margin: 0 0;
-	padding: 0;
+	margin: auto;
 
 }
 
@@ -124,16 +129,32 @@ footer{
 	min-height: 20px;
 	padding: 20px;
 	background-color: #F7F7F7;
-	color:#0074D9; 
+	/*color:#0074D9;*/ 
 	border: 1px solid darken($wellBackground, 7%);
-	width: 25%;
+	width: 30%;
 	min-height: 250px;
 	margin: 10px;
 	border-radius: 5px;
   	-webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   	-moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
   	box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  	font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
+  	/*font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;*/
+	color: #4A4A4A;
+	font-weight: 300;
+    font-family: "Myriad", Arial, Helvetica, sans-serif;
+}
+
+.board:hover {
+	 border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.board:hover .board-remove-button {
+    display: block;
+
+}
+
+.board:hover .board-edit-button {
+    display: block;
 }
 
 #dashboard .board label{
@@ -175,16 +196,6 @@ footer{
 	right: 0px;
 	top: 35px;
 }
-
-.board:hover .board-remove-button {
-    display: block;
-
-}
-
-.board:hover .board-edit-button {
-    display: block;
-}
-
 
 /* CSS clases for left menu bar*/
 .animate {
