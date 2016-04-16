@@ -14,7 +14,10 @@ odysseyApp.service('currentUserService', function($rootScope, $document){
     }
 });
 
-odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider',function($routeProvider, $locationProvider, $httpProvider){
+odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+
+    // Expose XHR requests to server
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
     $routeProvider.when('/', {
         controller: 'loginController',
