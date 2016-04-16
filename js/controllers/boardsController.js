@@ -1,4 +1,4 @@
-odysseyApp.controller('boardsController', function($rootScope, $scope, $routeParams, $document, currentUserService) {
+odysseyApp.controller('boardsController', function($rootScope, $scope, $routeParams, $document, $cookieStore, currentUserService) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
@@ -6,6 +6,9 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 	$scope.boardPopupState = "create";
 	$scope.editBoardId = "";
     
+
+ 	console.log($cookieStore.get('currentUser'));
+
     $scope.currentUser = currentUserService.getCurrentUser();
     console.log(currentUserService.getCurrentUser());
 	$.ajax({ 

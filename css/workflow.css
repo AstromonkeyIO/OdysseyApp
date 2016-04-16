@@ -84,6 +84,12 @@
 
 }
 
+.edit-workflow-button {
+	float: right;
+	color: #0074D9;
+
+}
+
 #add-workflow-button:hover 
 {
 	opacity: 0.75;
@@ -171,7 +177,6 @@
 	display: block;
 	height: 46px;
 	font-size: 18px;
-
 }
 
 .assignedTo {

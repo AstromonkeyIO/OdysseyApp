@@ -33,7 +33,6 @@
 
 <div class="container">       
    <div id="workflow-container" class="row">
-
     <div class="modal fade" id="workflow-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -56,8 +55,36 @@
         </div>
     </div>
 
+
+    <!-- Edit Workflow Form-->
+    <div class="modal fade" id="edit-workflow-form" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height:220px;">
+                <!-- Modal Header -->
+                <button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" style="margin:20px;"><i class="glyphicon glyphicon-remove"></i></button>
+                <!-- Modal Body -->
+                <div class="modal-body" style="margin-top: 30px;"> 
+                    <div style="text-align:center;">
+                        <div class="input-group" style="margin:20px;">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                            <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Rename Workflow!" ng-model="editWorkflowTitle">
+                        </div>
+                        <div style="margin:20px;">
+                            <button type="submit" style="border-radius: 0px;" class="btn btn-primary col-xs-6 btn-lg" ng-click="editWorkflow()">Edit</button>
+                            <button type="submit" style="border-radius: 0px;" class="btn btn-danger col-xs-6 btn-lg" ng-click="deleteWorkflow()">Delete</button>  
+                        </div>
+                    </div>                              
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -->
+
+
     <!-- Add Workflow Button -->
     <button id="add-workflow-button" type="button" class="btn btn-circle btn-lg" data-toggle="modal" data-target="#workflow-form"><i class="glyphicon glyphicon-plus"></i></button>
+    <!---->
 
 
     <!-- Create and Edit Task Popup -->
@@ -87,22 +114,77 @@
                                 <textarea class="form-control" name="description" placeholder="Description" rows="3" ng-model="taskFormDescription"></textarea>    
                         </div>
                         <div class="input-group" style="margin:20px;">
-                                <div style="float:left">
+                            <div style="float:left; width:45%;">
+                            <div class="input-group">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
+                            <!--Due Date: <input type="date" name="bday">-->
+                            </div>
+                            </div>
+                            <div style="float:right; width:45%;">
                                 <div class="input-group">
-                                <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
-                                <!--Due Date: <input type="date" name="bday">-->
+                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-list-alt"></span></span>
+                                    <select class="form-control input-lg">
+                                        <option value="one">One</option>
+                                        <option value="two">Two</option>
+                                        <option value="three">Three</option>
+                                        <option value="four">Four</option>
+                                        <option value="five">Five</option>
+                                    </select>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin:20px;">
+                            <div style="float:left; width:45%;">
+                            <div class="input-group">
+                            <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
+                            <!--Due Date: <input type="date" name="bday">-->
+                            </div>
+                            </div>
+                            <div style="float:right; width:45%;">
+                                <div class="input-group">
+                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-list-alt"></span></span>
+                                    <select class="form-control input-lg">
+                                        <option value="one">One</option>
+                                        <option value="two">Two</option>
+                                        <option value="three">Three</option>
+                                        <option value="four">Four</option>
+                                        <option value="five">Five</option>
+                                    </select>
                                 </div>
-                                <div style="float:right; margin-left:15px;">
-                                Priority: <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                  <button type="button" class="btn btn-success">Low</button>
-                                  <button type="button" class="btn btn-warning">Medium</button>
-                                  <button type="button" class="btn btn-danger">High</button>
+                            </div>
+                        </div>
+
+
+                        <div class="input-group" style="margin:20px;">
+                                <div class="assigneeInput" style="float:left width:45%;">
+                                    <div class="input-group" >
+                                        <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
+                                        <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
+                                    </div>
+                                     <ul style="padding:0; posiition: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
+                                        <li ng-repeat="assignee in assignees"><button type="button" ng-click="assignUserToTask(assignee)" style="width:100%; height:40px;">{{assignee.username}}</button></li>
+                                    </ul>
                                 </div>
+                                <div ng-if="assignedUser" class="input-group" style="float:left; width:45%;">
+                                    <div class="assigneeTo">
+                                        <span><span class="glyphicon glyphicon-user"></span> Assigned to : {{assignedUser.username}}<button type="button" class="btn btn-danger btn-md" style="margin:5px;" ng-click="removeAssignee(assignedUser)"><i class="glyphicon glyphicon-remove"></i></button></span>
+                                    </div>
+                                </div> 
+                                <div style="float:right; width:45%;">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                        <button type="button" class="btn">Low</button>
+                                        <button type="button" class="btn">Medium</button>
+                                    </div>
                                 </div>
                         </div>
-                        <div class="assigneeInput">
+
+
+                        <!--
+                        <div>
+                        <div class="assigneeInput" style="float:left;">
                             <div class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;" >
                                 <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
                                 <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
@@ -111,23 +193,14 @@
                                 <li><button type="button" ng-click="assignUserToTask(assignee)" style="width:100%; height:40px;">{{assignee.username}}</button></li>
                             </ul>
                         </div>
-                        <div class="progressBar">
-                            <div data-role="main" class="ui-content">
-                            <input type="range" name="points" id="points" value="50" min="0" max="100" data-show-value="true">
-                            </div>
-                        </div>
                         <div ng-if="assignedUser" class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;">
                             <div class="assigneeTo">
                                 <span><span class="glyphicon glyphicon-user"></span> Assigned to : {{assignedUser.username}}<button type="button" class="btn btn-danger btn-md" style="margin:5px;" ng-click="removeAssignee(assignedUser)"><i class="glyphicon glyphicon-remove"></i></button></span>
                             </div>
-                        </div>                    
-
-                        <!--
-                        <div class="input-group" style="margin-top:20px; margin-left:20px; margin-right:20px;" >
-                            <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
-                            <div> tom </div>
+                        </div>                   
                         </div>
                         -->
+
                         <div style="margin:20px;">
                         <button id="create-task-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" style="text-transform: uppercase;" ng-disabled="!taskFormName">{{taskFormState}}</button>
                         </div>
@@ -153,25 +226,6 @@
                                     </p>
                                 </div>
                             </li>
-                            <!--
-                            <li class="media">
-                                <div class="media-left">
-                                    <img src="http://placehold.it/60x60" class="img-circle">
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading">
-                                        Mauris Eu
-                                        <br>
-                                        <small>
-                                            commented on <a href="#">Post Title</a>
-                                        </small>
-                                    </h4>
-                                    <p>
-                                        Vivamus pulvinar mauris eu placerat blandit. In euismod tellus vel ex vestibulum congue...
-                                    </p>
-                                </div>
-                            </li>
-                            -->
                         </ul>
                         </div>
                         <div class="comment-input">
@@ -190,13 +244,17 @@
     <!---->    
 </div>
 
-<ul ng-repeat="workflow in workflows" class="workflow-list">
-    <li>
+<ul class="workflow-list">
+    <li ng-repeat="workflow in workflows">
         <div id="{{workflow._id}" class='col-lg-4 col-lg-4' ng-model="workflowId">
             <div class='panel panel-default'>
                 <div class='panel-heading'>
-                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.title}}</a></h4>
-                    </div>
+                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.title}}</a>
+                    <a class="edit-workflow-button" data-toggle="modal" data-target="#edit-workflow-form" ng-click="setTargetWorkflow(workflow)"> 
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </a>
+                    </h4>
+                </div>
                         <div id='collapseOne' class='panel-collapse collapse in'>
                         <div class='panel-body'>
                         <div style="max-height: 350px; overflow-y:scroll;">

@@ -139,6 +139,8 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     $scope.$apply();
                     $('#task-form').modal('hide');
                     $scope.clearTaskForm();
+
+                    console.log($scope.assignedUser);
                     //$scope.dismissCreateTaskPopupButtonClicked(); 
                     //send mail to task
                     $.ajax({ 
@@ -244,12 +246,117 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
   }
   
-  $scope.clearAddNewWorkflowForm = function()
-  {
+    $scope.clearAddNewWorkflowForm = function()
+    {
 
 
 
-  }
+    }
+
+    /* Create, Edit, and Delete Workflow */
+    $scope.setTargetWorkflow = function(workflow) {
+        $scope.targetWorkflow = workflow;
+        $scope.editWorkflowTitle = workflow.title;
+    }
+
+    $scope.editWorkflow = function() {
+
+        $.ajax({ 
+            type: "PUT",
+            url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,
+            data: JSON.stringify({ "title": $scope.editWorkflowTitle}),                
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(workflow) {
+                
+                for(var i = 0; i < $scope.workflows.length ; i++) {
+
+                    if($scope.workflows[i]._id == workflow._id)
+                    {
+
+                        $scope.workflows[i].title = workflow.title;
+                        $scope.$apply();
+                        break;
+                    }
+
+                }
+
+                $('#edit-workflow-form').modal('hide'); 
+
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }
+
+    $scope.deleteWorkflow = function() {
+
+        // Delete the workflow from the UI first for better user experience
+        for(var i = 0; i < $scope.workflows.length ; i++) {
+
+            if($scope.workflows[i]._id == $scope.targetWorkflow._id)
+            {
+
+                $scope.workflows.splice(i, 1);
+                break;
+            }
+
+        }        
+
+        $('#edit-workflow-form').modal('hide');
+
+        var tasksToDelete = $scope.targetWorkflow.tasks;
+
+        $.ajax({ 
+            type: "DELETE",
+            url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,               
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(workflow) {
+                
+                for(var i = 0; i < tasksToDelete.length; i++) {
+
+                    $.ajax({ 
+                        type: "DELETE",
+                        url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+tasksToDelete[i]._id,
+                        crossDomain: true,
+                        dataType: "json",
+                        contentType: 'application/json',
+                        processData: false,
+                        success: function(task) {
+                            console.log(task);
+                        },
+                        error: function(error) {
+                          console.log(error);
+                        }
+                    });
+
+                }
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+    }
+
+
+    $scope.dismissEditWorkflowForm = function() {
+
+        $('#edit-workflow-form').modal('hide'); 
+
+    }
+    /* */    
+
+
+
 
     $scope.clearTaskForm = function()
     {

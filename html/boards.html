@@ -85,7 +85,7 @@
 					<a ng-href="/boards/{{board._id}}">
 						<div class="board">
 						<h3>{{board.title}}</h3>
-						<div>By: {{board.creator.username}}</div>
+						<p>By: {{board.creator.username}}</p>
 						<p>{{board.description}}</p>
 						<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
 						<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>

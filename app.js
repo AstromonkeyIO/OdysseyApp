@@ -1,5 +1,5 @@
 
-var odysseyApp = angular.module('odysseyApp', ['ngRoute']);
+var odysseyApp = angular.module('odysseyApp', ['ngRoute', 'ngCookies']);
 
 odysseyApp.service('currentUserService', function($rootScope, $document){
     this.currentUser = {};
@@ -14,7 +14,7 @@ odysseyApp.service('currentUserService', function($rootScope, $document){
     }
 });
 
-odysseyApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider){
+odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider',function($routeProvider, $locationProvider, $httpProvider){
 
     $routeProvider.when('/', {
         controller: 'loginController',
