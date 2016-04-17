@@ -17,8 +17,8 @@
             </a>
         </li>
         <li>
-            <a href="#blog" class="animate">
-                <span class="desc animate"> User </span>
+            <a href="/team" class="animate">
+                <span class="desc animate"> Team </span>
                 <span class="glyphicon glyphicon-user"></span>
             </a>
         </li>
@@ -264,8 +264,8 @@
                                 <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.title}}</p>
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <div>{{task.creator.username}}</div>
-                                <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow)"><i class="glyphicon glyphicon-remove"></i></button>
-                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow)" data-toggle="modal" data-target="#task-form"><i class="glyphicon glyphicon-cog"></i></button>
+                                <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow); $event.preventDefault()" data-toggle="modal" data-target="#task-form" ><i class="glyphicon glyphicon-cog"></i></button>
                                 <button type="button" class="btn btn-info btn-md task-edit-button">50%</button>
                                 <button type="button" class="btn btn-success btn-md task-edit-button"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
                                 <span class="show-menu">

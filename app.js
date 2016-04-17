@@ -16,9 +16,6 @@ odysseyApp.service('currentUserService', function($rootScope, $document){
 
 odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 
-    // Expose XHR requests to server
-    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
     $routeProvider.when('/', {
         controller: 'loginController',
         templateUrl: '/html/login.html'
@@ -35,6 +32,11 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         controller: 'workflowController',
         templateUrl: '/html/workflow.html'
     })
+    .when('/team/', {
+        controller: 'teamController',
+        templateUrl: '/html/team.html'
+    })
+
     .otherwise({redirectTo: '/login'});
 
     $locationProvider.html5Mode(true);
