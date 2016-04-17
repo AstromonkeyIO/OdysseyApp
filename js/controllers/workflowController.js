@@ -106,6 +106,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormWorkflow = workflow;
+
+        console.log("wf   " + $scope.taskFormWorkflow.title);
+
         $scope.comments = task.comments.reverse();
         
         if(task.assignee) {

@@ -2,6 +2,8 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 {   
 
     $scope.newMemberRole = "nonAdmin";
+    $scope.users = [];
+    $scope.deleteUser = {};
 
     $scope.selectAdmin = function() {
 
@@ -92,6 +94,8 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
                 var html = '';
                 for(var i = 0; i < users.length; i++) {
 
+                    $scope.users.push(users[i]);
+
                     if(typeof(users[i].username) != 'undefined') {
                         //html = html + '<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">'+'<div class="img-box">'+'</div>'+'<img src="http://placehold.it/60x60">'+'<h1>' + users[i].username + '</h1>' +'<h2>Co-founder/ Operations</h2>'+
                         //'<p></p>'+
@@ -126,15 +130,86 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
     }
 
+    $scope.confirmDeleteUser = function(userId) {
+
+       $.ajax({ 
+            type: "DELETE",
+            url: "http://odysseyapistaging.herokuapp.com/api/users/"+ userId,               
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(user) {
+                
+                console.log(user);
+
+                for(var i = 0; i < $scope.users.length; i++) {
+
+                    if($scope.users[i]._id == userId) {
+                        $scope.users.splice(i, 1);
+                        $scope.$apply();
+                        break;
+                    }
+                }
+
+                var html = '';
+                for(var i = 0; i < $scope.users.length; i++) {
+
+                    html = html + '<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">'+
+                    '               <div class="img-box">'+
+                    '               </div>'+
+                    '                   <img src="http://placehold.it/60x60">'+
+                    '               <h1>' +  $scope.users[i].username + '</h1>'+
+                    '               <h2>Co-founder/ Operations</h2>'+
+                    '               <div id="'+ $scope.users[i]._id +'" class="user-buttons">'+
+                    '                   <button type="button" class="btn btn-success">'+
+                    '                       <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="emailUser()"></span> Message'+
+                    '                   </button>'+
+                    '                   <button type="button" class="btn btn-danger remove-user-button" value="'+ $scope.users[i]._id +'">'+
+                    '                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove'+
+                    '                   </button>'+
+                    '               </div>'+
+                    '            </div>';
+                }
+
+                $('.user-display-box').html(html);
+                $('#delete-user-popup').modal('hide');
+
+
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    $scope.cancelDeleteUser = function() {
+
+        $('#delete-user-popup').modal('hide');      
+
+    }
+
+
     // remove user
     $(document).on("click", ".remove-user-button", function(){
-        //$(this).parent().remove();
-        //$('#delete-user-popup').modal('show');
-        console.log($(this).parent()[0].id);
-        alert ('button clicked' + $(".remove-user-button").val() + $(this).parent());
 
+        $scope.deleteUser.id = $(this).parent()[0].id;
+
+        for(var i = 0; i < $scope.users.length; i++) {
+
+            if($scope.users[i]._id == $scope.deleteUser.id) {
+                $scope.deleteUser.username = $scope.users[i].username;
+                $scope.$apply();
+                $('#delete-user-popup').modal('show');
+                break;
+            }
+
+        }
 
     });
+
+
 
     //left menu bar
     $(function () {
@@ -163,6 +238,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
         { 
             $(this).removeData();
             $scope.newMemberEmail = "";
+            $scope.deleteUser = {};
             $scope.$apply();
         });
 

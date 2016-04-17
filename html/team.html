@@ -87,22 +87,14 @@
 					</h4>
 					</div>
 					<!-- Modal Body -->
-					<div class="modal-body" style="height:240px;">
-						<form role="form" ng-submit="addNewMember()" method="POST">
+					<div class="modal-body" style="height:200px;">
+						<form role="form">
 	                        <div class="input-group" style="margin:20px;">
-	                            <span class="input-group-addon success"><span class="glyphicon glyphicon-envelope"></span></span>
-	                            <input type="email" class="form-control input-lg" name="validate-optional" placeholder="New Member's Email" ng-model="newMemberEmail" autocomplete="off">
+	                        	Are you sure you want to remove {{deleteUser.username}} from the team?
 	                        </div>
-	                        <div class="input-group" style="margin:20px;">
-			                    <ul class="nav nav-pills">
-			                        <li role="presentation" class="admin-selector"><a href="#" ng-click="selectAdmin()"><i class="glyphicon glyphicon-chevron-up"></i> Admin</a>
-			                        </li>
-			                        <li role="presentation" class="active non-admin-selector"><a href="#" ng-click="selectNonAdmin()"><i class="glyphicon glyphicon-chevron-down"></i> Normal</a>
-			                        </li>
-			                    </ul>
-		                	</div>
 	                        <div style="margin:20px;">
-	                        <button type="submit" class="btn col-xs-12 btn-lg invite-button" ng-disabled="!newMemberEmail">Send an Invite!</button>
+	                        <button type="submit" class="btn btn-md btn-danger" ng-click="confirmDeleteUser(deleteUser.id)">Yes</button>
+	                        <button type="submit" class="btn btn-md" ng-click="cancelDeleteUser()">No</button>
 	                        </div>
 						</form>					
 					</div>

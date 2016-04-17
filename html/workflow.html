@@ -123,53 +123,25 @@
                             </div>
                             <div style="float:right; width:45%;">
                                 <div class="input-group">
-                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-list-alt"></span></span>
+                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-align-left"></span></span>
                                     <select class="form-control input-lg">
-                                        <option value="one">One</option>
-                                        <option value="two">Two</option>
-                                        <option value="three">Three</option>
-                                        <option value="four">Four</option>
-                                        <option value="five">Five</option>
+                                        <option value="workflow._id" ng-repeat="workflow in workflows" ng-selected="workflow.title==taskFormWorkflow.title">{{workflow.title}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="input-group" style="margin:20px;">
-                            <div style="float:left; width:45%;">
-                            <div class="input-group">
-                            <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
-                            <!--Due Date: <input type="date" name="bday">-->
-                            </div>
-                            </div>
-                            <div style="float:right; width:45%;">
-                                <div class="input-group">
-                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-list-alt"></span></span>
-                                    <select class="form-control input-lg">
-                                        <option value="one">One</option>
-                                        <option value="two">Two</option>
-                                        <option value="three">Three</option>
-                                        <option value="four">Four</option>
-                                        <option value="five">Five</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-
                         <div class="input-group" style="margin:20px;">
                                 <div class="assigneeInput" style="float:left width:45%;">
                                     <div class="input-group" >
                                         <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
                                         <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
                                     </div>
-                                     <ul style="padding:0; posiition: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
+                                     <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
                                         <li ng-repeat="assignee in assignees"><button type="button" ng-click="assignUserToTask(assignee)" style="width:100%; height:40px;">{{assignee.username}}</button></li>
                                     </ul>
                                 </div>
                                 <div ng-if="assignedUser" class="input-group" style="float:left; width:45%;">
-                                    <div class="assigneeTo">
+                                    <div class="assigneeTo input-group">
                                         <span><span class="glyphicon glyphicon-user"></span> Assigned to : {{assignedUser.username}}<button type="button" class="btn btn-danger btn-md" style="margin:5px;" ng-click="removeAssignee(assignedUser)"><i class="glyphicon glyphicon-remove"></i></button></span>
                                     </div>
                                 </div> 
