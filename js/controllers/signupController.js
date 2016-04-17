@@ -1,20 +1,23 @@
 odysseyApp.controller('signupController', function($rootScope, $scope, $location, $document, $cookieStore, currentUserService) {
 
-    $scope.addNewUser = function() {
 
-
+    $scope.convertInviteeToUser = function(email, username, password, title) {
 
         $.ajax({ 
-            type: "POST",
+            type: "PUT",
             url: "http://odysseyapistaging.herokuapp.com/api/invitee",
-            data: JSON.stringify({"email": email, "role": role}),
+            data: JSON.stringify({"email": email, "username": username, "password": password, "title": title}),
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
             processData: false,
-            success: function(invitee) {
-                console.log(invitee);
-                $scope.sendSignupInvite(invitee.email, "bob");
+            success: function(user) {
+                console.log(user);
+                $('.invite-button').prop('disabled', false);
+                $('.invite-button').html('Profile Created!').fadeIn();
+                setTimeout(function() {
+                    $('.invite-button').html('Try again').fadeIn();
+                }, 1000);                
             },
             error: function(error) {
                 console.log(error);
@@ -27,39 +30,14 @@ odysseyApp.controller('signupController', function($rootScope, $scope, $location
             }
         });
 
-
     }
 
-    $scope.submit = function() {
+    $scope.signupUser = function() {
 
-        $.ajax({ 
-            type: "GET",
-            url: "http://odysseyapistaging.herokuapp.com/api/users/"+ $scope.username +"/" + $scope.password,
-            crossDomain: true,
-            dataType: "json",
-            contentType: 'application/json',
-            processData: false,
-            headers : {'Content-Type':undefined,},
-            success: function(user) {
+        $('.signup-button').prop('disabled', true);
+        $('.signup-button').html('Sending...').fadeIn();
 
-            $rootScope.currentUser = user; 
-
-            $cookieStore.put('currentUser', user);
-            var d = new Date();
-            d.setTime(d.getTime() + (1*24*60*60*1000));
-            var expires = "expires="+d.toUTCString();
-            $document.cookie = "currentUser"+ "=" + JSON.stringify(user) + "; " + expires;
-            //$document.cookie = user;
-            currentUserService.setCurrentUser(user);
-            //console.log($document.cookie);
-            $location.path("/boards");
-            $scope.$apply();
-
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-
+        $scope.convertInviteeToUser($scope.email, $scope.username, $scope.password, $scope.title);   
     }
+
 });

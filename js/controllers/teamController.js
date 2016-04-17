@@ -1,7 +1,6 @@
 odysseyApp.controller('teamController', function ($scope, $routeParams, $compile, currentUserService) 
 {   
 
-
     $scope.newMemberRole = "nonAdmin";
 
     $scope.selectAdmin = function() {
@@ -78,6 +77,65 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
     }
 
+    $scope.getAllUsers = function() {
+
+        $.ajax({ 
+            type: "GET",
+            url: "http://odysseyapistaging.herokuapp.com/api/users",
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(users) {
+
+                console.log(users);
+                var html = '';
+                for(var i = 0; i < users.length; i++) {
+
+                    if(typeof(users[i].username) != 'undefined') {
+                        //html = html + '<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">'+'<div class="img-box">'+'</div>'+'<img src="http://placehold.it/60x60">'+'<h1>' + users[i].username + '</h1>' +'<h2>Co-founder/ Operations</h2>'+
+                        //'<p></p>'+
+                        //'</div>';
+                        html = html + '<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">'+
+                        '               <div class="img-box">'+
+                        '               </div>'+
+                        '                   <img src="http://placehold.it/60x60">'+
+                        '               <h1>' +  users[i].username + '</h1>'+
+                        '               <h2>Co-founder/ Operations</h2>'+
+                        '               <div id="'+ users[i]._id +'" class="user-buttons">'+
+                        '                   <button type="button" class="btn btn-success">'+
+                        '                       <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="emailUser()"></span> Message'+
+                        '                   </button>'+
+                        '                   <button type="button" class="btn btn-danger remove-user-button" value="'+ users[i]._id +'">'+
+                        '                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove'+
+                        '                   </button>'+
+                        '               </div>'+
+                        '            </div>';
+                    }
+
+                }
+
+                $('.user-display-box').html(html);
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+
+    }
+
+    // remove user
+    $(document).on("click", ".remove-user-button", function(){
+        //$(this).parent().remove();
+        //$('#delete-user-popup').modal('show');
+        console.log($(this).parent()[0].id);
+        alert ('button clicked' + $(".remove-user-button").val() + $(this).parent());
+
+
+    });
+
     //left menu bar
     $(function () {
         /* START OF DEMO JS - NOT NEEDED */
@@ -110,5 +168,9 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
     });
     //
+
+    $scope.getAllUsers();
+
+
 
 });

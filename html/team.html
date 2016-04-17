@@ -2,7 +2,7 @@
 <link href="/css/team.css" rel="stylesheet">
 <body ng-controller="boardsController">
 	<div class="container">
-		
+
 		<!-- Top Left Menu Bar -->
 		<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
 		    <div class="navbar-toggler animate">
@@ -71,6 +71,46 @@
 		</div>
 	<!-- -->
 
+	<!-- Delete User Confirmation Popup -->
+		<div id="delete-user-popup" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<button type="button" class="close"
+						data-dismiss="modal" ng-click="dismissBoardPopup()">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">
+					</h4>
+					</div>
+					<!-- Modal Body -->
+					<div class="modal-body" style="height:240px;">
+						<form role="form" ng-submit="addNewMember()" method="POST">
+	                        <div class="input-group" style="margin:20px;">
+	                            <span class="input-group-addon success"><span class="glyphicon glyphicon-envelope"></span></span>
+	                            <input type="email" class="form-control input-lg" name="validate-optional" placeholder="New Member's Email" ng-model="newMemberEmail" autocomplete="off">
+	                        </div>
+	                        <div class="input-group" style="margin:20px;">
+			                    <ul class="nav nav-pills">
+			                        <li role="presentation" class="admin-selector"><a href="#" ng-click="selectAdmin()"><i class="glyphicon glyphicon-chevron-up"></i> Admin</a>
+			                        </li>
+			                        <li role="presentation" class="active non-admin-selector"><a href="#" ng-click="selectNonAdmin()"><i class="glyphicon glyphicon-chevron-down"></i> Normal</a>
+			                        </li>
+			                    </ul>
+		                	</div>
+	                        <div style="margin:20px;">
+	                        <button type="submit" class="btn col-xs-12 btn-lg invite-button" ng-disabled="!newMemberEmail">Send an Invite!</button>
+	                        </div>
+						</form>					
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- -->
+
 	<!-- Add User Button -->
 	<button type="button" class="add-user-button" data-toggle="modal" data-target="#invite-member-popup">
     	<i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-user"></i>
@@ -78,53 +118,30 @@
 	<!-- -->
 
     <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="col-lg-12">
-          <h6 class="description">YOUR AWESOME TEAM!</h6>
-          <div class="row pt-md">
-            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">
-            	<div class="img-box">
-            	</div>
-           		<img src="http://placehold.it/60x60">
-            	<h1>Marrie Doi</h1>
-            	<h2>Co-founder/ Operations</h2>
-            	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">
-            	<div class="img-box">
-            	</div>
-           		<img src="http://placehold.it/60x60">
-            	<h1>Marrie Doi</h1>
-            	<h2>Co-founder/ Operations</h2>
-            	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            </div>
-             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 profile">
-            	<div class="img-box">
-            	</div>
-           		<img src="http://placehold.it/60x60">
-            	<h1>Marrie Doi</h1>
-            	<h2>Co-founder/ Operations</h2>
-            	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      	<div class="col-md-10 col-md-offset-1">
+        	<div class="col-lg-12">
+	        	<h6 class="description">YOUR AWESOME TEAM!</h6>
+	        	<div class="row pt-md user-display-box">
+	        	</div>
+    		</div>
+    	</div>
     </div>
 
-		<div class="boards-container">
-			<ul ng-repeat="board in boardsList">
-				<li>
-					<a ng-href="/boards/{{board._id}}">
-						<div class="board">
-						<h3>{{board.title}}</h3>
-						<p>By: {{board.creator.username}}</p>
-						<p>{{board.description}}</p>
-						<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
-						<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>
-						</div>
-					</a>
-				</li>	
-			</ul>
-		</div>
+	<div class="boards-container">
+		<ul ng-repeat="board in boardsList">
+			<li>
+				<a ng-href="/boards/{{board._id}}">
+					<div class="board">
+					<h3>{{board.title}}</h3>
+					<p>By: {{board.creator.username}}</p>
+					<p>{{board.description}}</p>
+					<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
+					<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>
+					</div>
+				</a>
+			</li>	
+		</ul>
+	</div>
+
 	</div>
 </body>

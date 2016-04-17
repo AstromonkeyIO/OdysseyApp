@@ -485,6 +485,14 @@ h6.description {
 	opacity: 1;
 }
 
+.profile .user-buttons {
+	visibility: hidden;
+}
+
+.profile:hover .user-buttons {
+	visibility: visible;
+}
+
 .img-box ul{
 	position: absolute;
 	z-index: 2;
