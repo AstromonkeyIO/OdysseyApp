@@ -441,13 +441,16 @@
 /**/
 
 @import url(https://fonts.googleapis.com/css?family=Quicksand:400,300);
-body{
-    font-family: 'Quicksand', sans-serif;
+
+body {
+	font-family: 'Quicksand', sans-serif;
 }
-.team{
+
+.team {
     padding:75px 0;
 }
-h6.description{
+
+h6.description {
 	font-weight: bold;
 	letter-spacing: 2px;
 	border-bottom: 1px solid rgba(0, 0, 0,0.1);
@@ -456,35 +459,32 @@ h6.description{
 	color:#0074D9; 
 	text-align: center;
 }
-.profile{
+
+.profile {
 	margin-top: 25px;
 	text-align: center;
 }
-.profile h1{
+
+.profile h1 {
 	font-weight: normal;
 	font-size: 20px;
 	margin:10px 0 0 0;
 }
-.profile h2{
+
+.profile h2 {
 	font-size: 14px;
 	font-weight: lighter;
 	margin-top: 5px;
 }
-.profile .img-box{
+
+.profile img {
+	border-radius: 50%;
+}
+
+.profile .img-box {
 	opacity: 1;
 }
-.profile .img-box:after{
-	/*
-	content:"";
-	opacity: 0;
-	background-color: rgba(0, 0, 0, 0.75);
-	position: absolute;
-	right: 0;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	*/
-}
+
 .img-box ul{
 	position: absolute;
 	z-index: 2;
@@ -542,6 +542,21 @@ a:hover{
 i.red{
     color:#BC0213;
 }
+
+
+
+
+#invite-member-popup h4 {
+	text-align: center;
+}
+
+#invite-member-popup .invite-button {
+	background-color:#0074D9; 
+	color:white; 
+	font-weight: normal;
+	letter-spacing: 2px;
+}
+
 
 
 

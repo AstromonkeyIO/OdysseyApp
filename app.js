@@ -24,6 +24,10 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         controller: 'loginController',
         templateUrl: '/html/login.html'
     })
+    .when('/signup', {
+        controller: 'signupController',
+        templateUrl: '/html/signup.html'
+    })
     .when('/boards', {
         controller: 'boardsController',
         templateUrl: '/html/boards.html'
@@ -61,7 +65,7 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         }
         */
     });        
- });
+});
 
 $(document).ready(function() {
     $("[rel='tooltip'], .tooltip").tooltip();
