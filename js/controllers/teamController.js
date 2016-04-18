@@ -1,9 +1,11 @@
-odysseyApp.controller('teamController', function ($scope, $routeParams, $compile, currentUserService) 
+odysseyApp.controller('teamController', function ($scope, $routeParams, $compile, currentUserService, $cookies) 
 {   
 
     $scope.newMemberRole = "nonAdmin";
     $scope.users = [];
     $scope.deleteUser = {};
+
+    $scope.currentUser = JSON.parse($cookies["currentUser"]);
 
     $scope.selectAdmin = function() {
 

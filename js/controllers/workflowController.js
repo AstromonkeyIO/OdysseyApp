@@ -1,11 +1,12 @@
-odysseyApp.controller('workflowController', function ($scope, $routeParams, $compile, currentUserService) 
+odysseyApp.controller('workflowController', function ($scope, $routeParams, $compile, currentUserService, $cookies) 
 {
 
     $scope.workflows = [];
     $scope.boardId = $routeParams.boardId;
     $scope.taskFormState = "";
 
-    $scope.currentUser = currentUserService.getCurrentUser();
+    $scope.currentUser = JSON.parse($cookies["currentUser"]);
+    console.log($scope.currentUser);
 
     $scope.comments = [];
 
@@ -66,7 +67,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     $scope.addTask = function(workflow) {
 
         $scope.targetedWorkflow = workflow;
+        $scope.selectedWorkflowId = workflow._id;
         $scope.taskFormState = "create";
+        $scope.taskFormPriority = "P3";
 
     }
 
@@ -105,7 +108,10 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormId = task._id;
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
+        $scope.taskFormDate = task.dueDate;
         $scope.taskFormWorkflow = workflow;
+        $scope.taskFormPriority = task.priority;
+
         console.log(workflow);
 
         $scope.comments = task.comments.reverse();
@@ -129,7 +135,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             $.ajax({ 
                 type: "POST",
                 url: "http://odysseyapistaging.herokuapp.com/api//workflows/"+ $scope.targetedWorkflow._id +"/tasks",
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId }),
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "dueDate": $scope.taskFormDate, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId, "priority": $scope.taskFormPriority}),
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
@@ -148,7 +154,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     $.ajax({ 
                         type: "POST",
                         url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks",
-                        data: JSON.stringify({"recipientEmail": $scope.assignedUser.email, "assigner": $scope.currentUser.username, "task": task}),
+                        data: JSON.stringify({"recipientEmail": $scope.assignedUser.email, "assigner": $scope.currentUser, "task": task}),
                         crossDomain: true,
                         dataType: "json",
                         contentType: 'application/json',
@@ -172,7 +178,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             $.ajax({ 
                 type: "PUT",
                 url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId}),                
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "dueDate": $scope.taskFormDate, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId, "priority": $scope.taskFormPriority}),                
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
@@ -183,7 +189,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     console.log(task);
 
                     console.log($scope.taskFormWorkflow);
-
+                    console.log($scope.targetedWorkflow);
 
                     for(i = 0; i < $scope.taskFormWorkflow.tasks.length; i++) {
 

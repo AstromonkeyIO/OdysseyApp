@@ -96,9 +96,9 @@
                 <div class="modal-header">
                     <button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" ng-click="dismissTaskForm()"><i class="glyphicon glyphicon-remove"></i></button>      
                     <ul class="nav nav-pills">
-                        <li id="task-details-tab"role="presentation" class="active"><a href="#" ng-click="showTaskDetailsView()"><i class="glyphicon glyphicon-cog"></i> Details</a></li>
-                        <li id="task-comments-tab" role="presentation"><a href="#" ng-click="showTaskCommentsView()"><i class="glyphicon glyphicon-comment"></i> {{comments.length}} Comments</a></li>
-                        <li id="task-activity-tab" role="presentation"><a href="#"><i class="glyphicon glyphicon-book"></i> Activity</a></li>
+                        <li id="task-details-tab"role="presentation" class="active"><a href="" ng-click="showTaskDetailsView()"><i class="glyphicon glyphicon-cog"></i> Details</a></li>
+                        <li id="task-comments-tab" role="presentation"><a href="" ng-click="showTaskCommentsView()"><i class="glyphicon glyphicon-comment"></i> {{comments.length}} Comments</a></li>
+                        <li id="task-activity-tab" role="presentation"><a href=""><i class="glyphicon glyphicon-book"></i> Activity</a></li>
                     </ul>
                 </div>
                 <!-- Modal Body -->
@@ -131,13 +131,13 @@
                             </div>
                         </div>
                         <div class="input-group" style="margin:20px;">
-                                <div class="assigneeInput" style="float:left width:45%;">
+                                <div class="assigneeInput" style="float:left; width:45%;">
                                     <div class="input-group" >
                                         <span class="input-group-addon success"><span class="glyphicon glyphicon-user"></span></span>
                                         <input id="tags" type="text" class="form-control input-lg" name="validate-optional" placeholder="Assignee" ng-model="taskFormAssignee" ng-keyup="assigneeInputKeyEvent($event)" autocomplete="off">
                                     </div>
-                                     <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; margin-left:20px; margin-right:20px;">
-                                        <li ng-repeat="assignee in assignees"><button type="button" ng-click="assignUserToTask(assignee)" style="width:100%; height:40px;">{{assignee.username}}</button></li>
+                                     <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:200px;">
+                                        <li ng-repeat="assignee in assignees"><button type="button" ng-click="assignUserToTask(assignee)" style="height:40px; width:230px;">{{assignee.username}}</button></li>
                                     </ul>
                                 </div>
                                 <div ng-if="assignedUser" class="input-group" style="float:left; width:45%;">
@@ -146,9 +146,14 @@
                                     </div>
                                 </div> 
                                 <div style="float:right; width:45%;">
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                                        <button type="button" class="btn">Low</button>
-                                        <button type="button" class="btn">Medium</button>
+                                <div class="input-group">
+                                        <span class="input-group-addon success"><span class="glyphicon glyphicon-chevron-up"></span> Priority</span>
+                                        <select class="form-control input-lg" ng-model="taskFormPriority"
+                                        >
+                                            <option value="P1">P1</option>
+                                            <option value="P2">P2</option>
+                                            <option value="P3">P3</option>
+                                        </select>
                                     </div>
                                 </div>
                         </div>
@@ -217,10 +222,20 @@
                                 <div>{{task.creator.username}}</div>
                                 <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow); $event.preventDefault()" data-toggle="modal" data-target="#task-form" ><i class="glyphicon glyphicon-cog"></i></button>
-                                <button type="button" class="btn btn-info btn-md task-edit-button">50%</button>
-                                <button type="button" class="btn btn-success btn-md task-edit-button"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
-                                <span class="show-menu">
-                                <span class="glyphicon glyphicon-chevron-right" rel="tooltip" title="Tip 1"></span>
+                                
+                                <button ng-if="task.priority=='P3'" type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
+                                <button ng-if="task.priority=='P2'" type="button" class="btn btn-primary btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
+                                <button ng-if="task.priority=='P1'" type="button" class="btn btn-danger btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
+
+
+                                <button type="button" class="btn btn-info btn-md task-edit-button" ng-click="$event.preventDefault()">50%</button>
+                                <button type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
+                                <span ng-if="task.priority=='P3'" class="show-menu P3">
+                                </span>
+                                <span ng-if="task.priority=='P2'" class="show-menu P2">
+                                </span>
+                                <span ng-if="task.priority=='P1'" class="show-menu P1">
+                                </span>                                                                
                                 </span>
                                 </a>
                             </li> 

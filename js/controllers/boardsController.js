@@ -1,4 +1,4 @@
-odysseyApp.controller('boardsController', function($rootScope, $scope, $routeParams, $document, $cookieStore, currentUserService) {
+odysseyApp.controller('boardsController', function($rootScope, $scope, $routeParams, $document, $cookieStore, currentUserService, $cookies, $location) {
 
 	$scope.boardsList = [];
 	$scope.num = 0;
@@ -6,11 +6,9 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 	$scope.boardPopupState = "create";
 	$scope.editBoardId = "";
     
-
- 	console.log($cookieStore.get('currentUser'));
-
-    $scope.currentUser = currentUserService.getCurrentUser();
-    console.log(currentUserService.getCurrentUser());
+	$scope.currentUser = JSON.parse($cookies.currentUser);
+	console.log($scope.currentUser.username);
+    //$scope.currentUser = currentUserService.getCurrentUser();
 	$.ajax({ 
 		type: "GET",
 		url: "http://odysseyapistaging.herokuapp.com/api/boards",
@@ -52,6 +50,7 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 				processData: false,
 				success: function(board) {
 					
+					board.creator = $scope.currentUser;
 					$scope.boardsList.push(board);
 					$scope.$apply();
 					$('#createBoardPopup').modal('hide')
@@ -163,6 +162,14 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
             $(this).closest('.navbar-minimal').toggleClass('open');
         })
     });
+
+
+    $scope.logout = function() {
+
+		$cookies.currentUser = "";  
+		$location.path("/login");  	
+
+    }
 
 
 

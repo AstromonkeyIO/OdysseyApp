@@ -211,7 +211,8 @@
 }
 .list-group-item > .task-link >.show-menu {
 	position: absolute;
-	height: 100%; width:24px;
+	height: 100%; 
+	width: 6px;
 	top: 0px; right: 0px;
 	text-decoration: none !important;
 	background-color: rgba(51, 51, 51, 0.2);
@@ -222,6 +223,22 @@
 	-ms-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
 }
+
+.list-group-item > .task-link >.show-menu.P1 {
+	background-color: #FF4136;
+}
+
+.list-group-item > .task-link >.show-menu.P2 {
+	background-color: #0074D9;
+}
+
+.list-group-item > .task-link >.show-menu.P3 {
+	background-color: #3D9970;
+}
+
+
+
+
 .list-group-item > .task-link > .show-menu > span {
 	position: absolute;
 	top: 50%;

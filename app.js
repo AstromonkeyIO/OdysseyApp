@@ -45,25 +45,18 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
 
     //$locationProvider.html5Mode(true);
 
-}]).run( function($rootScope, $location, currentUserService, $document) {
+}]).run( function($rootScope, $location, currentUserService, $document, $cookies) {
 
-    $rootScope.$on( "$routeChangeStart", function(event, next, currentUserService) {
+    var cookies = $cookies;
+    $rootScope.$on("$routeChangeStart", function(event, next, currentUserService, $cookies) {
         console.log("im here");
         
-        //console.log("user logged" +$rootScope.loggedInUser);
-        if($document.cookies == true) {
-            console.log("loggedin");
+        console.log(cookies);
+        if(cookies.currentUser == "") {
+        
+            $location.path( "/login" );
 
-        } else {
-            console.log("i'm loggedout")
-            //$location.path( "/login" );           
         }
-        /*
-        if($rootScope.currentUserService.getCurrentUser()._id == null ) {
-            console.log("its null");
-            //$location.path( "/login" );
-        }
-        */
     });        
 });
 

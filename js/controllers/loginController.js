@@ -1,4 +1,4 @@
-odysseyApp.controller('loginController', function($rootScope, $scope, $location, $document, $cookieStore, currentUserService) {
+odysseyApp.controller('loginController', function($rootScope, $scope, $location, $document, $cookieStore, currentUserService, $cookies) {
 
     $scope.submit = function() {
 
@@ -11,10 +11,9 @@ odysseyApp.controller('loginController', function($rootScope, $scope, $location,
             processData: false,
             headers : {'Content-Type':undefined,},
             success: function(user) {
-
-            $rootScope.currentUser = user; 
-
-            $cookieStore.put('currentUser', user);
+ 
+            console.log(JSON.stringify(user));
+            $cookies.currentUser = JSON.stringify(user);
             var d = new Date();
             d.setTime(d.getTime() + (1*24*60*60*1000));
             var expires = "expires="+d.toUTCString();
