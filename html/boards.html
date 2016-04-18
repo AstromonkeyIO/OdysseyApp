@@ -8,13 +8,13 @@
 		    </div>
 		    <ul class="navbar-menu animate">
 		        <li>
-		            <a ng-href="/boards" class="animate">
+		            <a ng-href="/#/boards" class="animate">
 		                <span class="desc animate"> Boards </span>
 		                <span class="glyphicon glyphicon-th"></span>
 		            </a>
 		        </li>
 		        <li>
-		            <a href="/team" class="animate">
+		            <a href="/#/team" class="animate">
 		                <span class="desc animate"> Team </span>
 		                <span class="glyphicon glyphicon-user"></span>
 		            </a>
@@ -82,7 +82,7 @@
 		<div class="boards-container">
 			<ul ng-repeat="board in boardsList">
 				<li>
-					<a ng-href="/boards/{{board._id}}">
+					<a ng-href="/#/boards/{{board._id}}">
 						<div class="board">
 						<h3>{{board.title}}</h3>
 						<p>By: {{board.creator.username}}</p>

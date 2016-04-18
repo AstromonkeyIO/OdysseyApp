@@ -106,8 +106,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormWorkflow = workflow;
-
-        console.log("wf   " + $scope.taskFormWorkflow.title);
+        console.log(workflow);
 
         $scope.comments = task.comments.reverse();
         
@@ -169,14 +168,11 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             });
         }
         else {
-
-            console.log($scope.targetedWorkflow._id);
-
             // edit task and save to database
             $.ajax({ 
                 type: "PUT",
                 url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow":  $scope.targetedWorkflow._id, "assigneeId": assigneeId}),                
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId}),                
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
@@ -185,11 +181,41 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                     
                     console.log("editted task ");
                     console.log(task);
-                    for(i = 0; i <  $scope.targetedWorkflow.tasks.length; i++) {
 
-                        if($scope.targetedWorkflow.tasks[i]._id == task._id)
+                    console.log($scope.taskFormWorkflow);
+
+
+                    for(i = 0; i < $scope.taskFormWorkflow.tasks.length; i++) {
+
+                        if($scope.taskFormWorkflow.tasks[i]._id == task._id)
                         {
-                            $scope.targetedWorkflow.tasks[i] = task;
+
+                            // if the workflow of the task changed
+                            if($scope.taskFormWorkflow.tasks[i].workflow != task.workflow) {
+
+                                // remove task from old workflow
+                                $scope.taskFormWorkflow.tasks.splice(i , 1);
+
+                                // add task to new workflow
+                                console.log(task.workflow);
+                                for(var k = 0; k < $scope.workflows.length; k++)
+                                {
+                                    if($scope.workflows[k]._id == task.workflow) {
+
+                                        console.log("switched");
+                                        $scope.workflows[k].tasks.push(task);
+                                        $scope.$apply();
+                                        break;
+                                    }
+
+                                }
+
+                            }
+                            else {
+
+                                $scope.targetedWorkflow.tasks[i] = task;
+
+                            }
                             $scope.$apply();
                             break;
                         }
@@ -377,7 +403,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
 
     $scope.assigneeInputKeyEvent = function(keyEvent) {
-        console.log("i'm ere");
+
         //console.log($scope.taskFormAssignee);
         if($scope.taskFormAssignee == "")
         {

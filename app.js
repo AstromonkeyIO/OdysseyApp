@@ -43,7 +43,7 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
 
     .otherwise({redirectTo: '/login'});
 
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(true);
 
 }]).run( function($rootScope, $location, currentUserService, $document) {
 
