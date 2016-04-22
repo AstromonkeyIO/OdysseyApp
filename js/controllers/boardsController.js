@@ -75,11 +75,12 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 				contentType: 'application/json',
 				processData: false,
 				success: function(board) {
-					
-					console.log(board);
+				
 					for(i = 0; i < $scope.boardsList.length; i++) {
 						if($scope.boardsList[i]._id == board._id) {
 
+							board.creator = $scope.currentUser;
+							console.log(board.creator);
 							$scope.boardsList[i] = board;
 							$scope.editBoardId = "";
 							$scope.$apply();
@@ -171,6 +172,19 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 
     }
 
+    //resetting task popup when it is closed
+    $(document).ready(function()
+    {   
+        // codes works on all bootstrap modal windows in application
+        $('.modal').on('hidden.bs.modal', function(e)
+        { 
+            // Clear Board Popup Form
+            $scope.newBoardTitle = "";
+            $scope.newBoardDescription = "";
+            $scope.newBoardKey = "";
+            $scope.$apply();
+        });
 
-
+    });
+    //
 });

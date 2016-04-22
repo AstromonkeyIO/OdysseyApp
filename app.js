@@ -40,7 +40,10 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         controller: 'teamController',
         templateUrl: '/html/team.html'
     })
-
+    .when('/report/', {
+        controller: 'reportController',
+        templateUrl: '/html/report.html'
+    })
     .otherwise({redirectTo: '/login'});
 
     //$locationProvider.html5Mode(true);

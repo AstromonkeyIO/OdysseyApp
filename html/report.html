@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<link href="/css/login.css" rel="stylesheet">
+<body>
+<div id="content">
+<div class="container">
+
+<nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
+    <div class="navbar-toggler animate">
+        <span class="menu-icon"></span>
+    </div>
+    <ul class="navbar-menu animate">
+        <li>
+            <a ng-href="/#/boards" class="animate">
+                <span class="desc animate"> Boards </span>
+                <span class="glyphicon glyphicon-th"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/#/team" class="animate">
+                <span class="desc animate"> Team </span>
+                <span class="glyphicon glyphicon-user"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/#/report" class="animate">
+                <span class="desc animate"> Report </span>
+                <span class="glyphicon glyphicon-list"></span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="animate" ng-click="logout()">
+                <span class="desc animate"> Logout </span>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+
+
+<center><h2>Customer Reports</h2></center>
+<div class="row">
+<div class="col-lg-3">
+</div><!-- /.col-lg-6 -->
+<div class="col-lg-6">
+    <div class="input-group">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Created By <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+            <li><a href="" ng-click="selectedCreatedBy()">Created By</a></li>
+            <li><a href="" ng-click="selectedAssignedTo()">Assigned To</a></li>
+            <li><a href="" ng-click="selectedBoards()">Board</a></li>
+            </ul>
+        </div><!-- /btn-group -->
+        <input type="text" aria-label="..." ng-model="searchInput" ng-keyup="searchInputKeyEvent($event)" autocomplete="off"><button ng-click="searchTasks()">Search</button>
+        <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:200px;">
+        <li ng-repeat="user in users"><button type="button" ng-click="selectUser(user)" style="height:40px; width:230px;">{{user.username}}</button></li>
+        </ul>
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+
+  <button class="button" onclick="generate()" class="download-pdf-button">Generate PDF</button>
+
+
+</div>
+  <table id="table" class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Creator</th>
+            <th>Description</th>
+            <th>Workflow</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Assignee</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="task in tasks">
+            <td>{{task._id}}</td>
+            <td>{{task.title}}</td>
+            <td>{{task.creator.username}}</td>
+            <td>{{task.description}}</td>
+            <td>{{task.workflow.title}}</td>
+            <td>{{task.priority}}</td>
+            <td>{task.dueDate}}</td>
+            <td>{task.assignee.username}}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<!--<div id="content">
+    <h1>
+        We support special element handlers. Register them with jQuery-style.
+    </h1>
+</div> -->
+</body>
+<script>
+  //Controlls
+  $(".dropdown-menu li a").click(function(){
+    $(".btn:first-child").html($(this).text()+' <span class="caret"></span>');
+  });
+//plugin
+function generate() {
+  var doc = new jsPDF('p', 'pt');
+  var elem = document.getElementById('table');
+  var data = doc.autoTableHtmlToJson(elem);
+  var opts = {};
+//  doc.autoTable(data.columns, data.rows, opts);
+doc.setFontSize(40);
+//doc.text(100, 25, "Customer Reports");
+doc.autoTable(data.columns, data.rows, {
+    styles: {overflow: 'linebreak'},
+    columnStyles: {
+        id: {fillColor: 255}
+    },
+    margin: {top: 60},
+    margin: {horizontal: 10},
+    beforePageContent: function(data) {
+        //doc.text("Overflow 'linebreak'", 10, doc.autoTableEndPosY() + 30);
+        //doc.setFontSize(40);
+        //doc.text(100, 25, "Customer Reports");
+    }
+});
+  doc.save("Reports.pdf");
+}
+</script>

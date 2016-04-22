@@ -9,26 +9,32 @@
     <div class="navbar-toggler animate">
         <span class="menu-icon"></span>
     </div>
-        <ul class="navbar-menu animate">
-            <li>
-                <a ng-href="/#/boards" class="animate">
-                    <span class="desc animate"> Boards </span>
-                    <span class="glyphicon glyphicon-th"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/#/team" class="animate">
-                    <span class="desc animate"> Team </span>
-                    <span class="glyphicon glyphicon-user"></span>
-                </a>
-            </li>
-            <li>
-                <a href="#contact-us" class="animate">
-                    <span class="desc animate"> How To Reach Us </span>
-                    <span class="glyphicon glyphicon-comment"></span>
-                </a>
-            </li>
-        </ul>
+    <ul class="navbar-menu animate">
+        <li>
+            <a ng-href="/#/boards" class="animate">
+                <span class="desc animate"> Boards </span>
+                <span class="glyphicon glyphicon-th"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/#/team" class="animate">
+                <span class="desc animate"> Team </span>
+                <span class="glyphicon glyphicon-user"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/#/report" class="animate">
+                <span class="desc animate"> Report </span>
+                <span class="glyphicon glyphicon-list"></span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="animate" ng-click="logout()">
+                <span class="desc animate"> Logout </span>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </li>
+    </ul>
 </nav>
 
 <div class="container">       
@@ -98,13 +104,13 @@
                     <ul class="nav nav-pills">
                         <li id="task-details-tab"role="presentation" class="active"><a href="" ng-click="showTaskDetailsView()"><i class="glyphicon glyphicon-cog"></i> Details</a></li>
                         <li id="task-comments-tab" role="presentation"><a href="" ng-click="showTaskCommentsView()"><i class="glyphicon glyphicon-comment"></i> {{comments.length}} Comments</a></li>
-                        <li id="task-activity-tab" role="presentation"><a href=""><i class="glyphicon glyphicon-book"></i> Activity</a></li>
+                        <li id="task-history-tab" role="presentation"><a href="" ng-click="showTaskHistoryView()"><i class="glyphicon glyphicon-book"></i> History</a></li>
                     </ul>
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="task-details-view">
-                    <form ng-submit="submitTaskForm()" style="text-align:center; position:relative;">
+                    <form ng-submit="submitTaskForm()" style="text-align:center; position:relative;" ng-model="taskForm">
                         <div class="input-group" style="margin:20px;">
                             <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
                             <input id="task-name-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Task" ng-model="taskFormName" required>
@@ -117,7 +123,7 @@
                             <div style="float:left; width:45%;">
                             <div class="input-group">
                             <span class="input-group-addon success"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input id="create-new-workflow-input" type="date" class="form-control input-lg" ng-model="taskFormDate">
+                            <input id="task-form-date" type="date" class="form-control input-lg" ng-model="taskFormDate">
                             <!--Due Date: <input type="date" name="bday">-->
                             </div>
                             </div>
@@ -187,10 +193,40 @@
                         <div class="comment-input">
                             <form ng-submit="addComment(newComment)">
                                 <div class="input-group">
-                                        <input class="form-control send-message" ng-model="newComment" placeholder="Leave a comment!"></input>
-                                        <span class="input-group-addon btn btn-success" ng-click="addComment(newComment)">Send</span>
+                                    <input class="form-control send-message" ng-model="newComment" placeholder="Leave a comment!"></input>
+                                    <span class="input-group-addon btn btn-success" ng-click="addComment(newComment)">Send</span>
                                 </div> 
                             </form> 
+                        </div>
+                    </div>
+                    <div class="task-history-view">
+                        <div style="width:100%; height: 350px; overflow: auto">
+                            <div class="row col-md-8 custyle">
+                            <table class="table table-striped custab">
+                                <thead>
+                                    <tr>
+                                        <th width="100%">Title</th>
+                                        <th>Description</th>
+                                        <th>Creator</th>
+                                        <th>Workflow</th>
+                                        <th>Priority</th>
+                                        <th>Due Date</th>
+                                        <th>Assignee</th>
+                                        <th>Activity</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="taskRecord in history">
+                                    <td>{{taskRecord.title}}</td>
+                                    <td>{{taskRecord.description}}</td>
+                                    <td>{{taskRecord.creator}}</td>
+                                    <td>{{taskRecord.workflow}}</td>
+                                    <td>{{taskRecord.priority}}</td>
+                                    <td>{{taskRecord.dueDate}</td>
+                                    <td>{{taskRecord.assignee}}</td>
+                                    <td>{{taskRecord.activity}}</td>
+                                </tr>
+                            </table>
+                            </div>
                         </div>
                     </div>
                 </div>
