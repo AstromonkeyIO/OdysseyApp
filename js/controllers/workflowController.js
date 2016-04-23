@@ -1,12 +1,15 @@
-odysseyApp.controller('workflowController', function ($scope, $routeParams, $compile, currentUserService, $cookies, $filter) 
+odysseyApp.controller('workflowController', function ($scope, $routeParams, $compile, currentUserService, $cookies, $filter, $location) 
 {
 
     $scope.workflows = [];
     $scope.boardId = $routeParams.boardId;
     $scope.taskFormState = "";
 
+    if(!$cookies["currentUser"]) {
+        $location.path("/login");
+        $scope.$apply();
+    }
     $scope.currentUser = JSON.parse($cookies["currentUser"]);
-    console.log($scope.currentUser);
 
     $scope.comments = [];
     $scope.history = [];
@@ -69,8 +72,10 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $scope.targetedWorkflow = workflow;
         $scope.selectedWorkflowId = workflow._id;
+        $scope.taskFormWorkflow = workflow;
         $scope.taskFormState = "create";
         $scope.taskFormPriority = "P3";
+        //$scope.assignedUser = "";
 
     }
 
@@ -116,14 +121,15 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $('#task-form-date').val($filter("date")(task.dueDate, 'yyyy-MM-dd'));
         //$scope.taskFormDate = $filter("date")(task.dueDate, 'yyyy-MM-dd');
         $scope.taskFormWorkflow = workflow;
+
+        $scope.selectedWorkflowId = workflow._id;
+
         $scope.taskFormPriority = task.priority;
         $scope.comments = task.comments.reverse();
 
         for(var j = 0; j < task.history.length; j++) {
             $scope.history.push(JSON.parse(task.history[j]));
         }
-
-        console.log($scope.history);
 
         if(task.assignee) {
             $scope.assignUserToTask(task.assignee);
@@ -143,10 +149,56 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     }
 
 
+    $scope.sendTaskNotificationEmail = function(recipientEmail, ccEmail, task) {
+
+        $.ajax({ 
+            type: "POST",
+            url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks",
+            data: JSON.stringify({"recipientEmail": recipientEmail, "ccEmail" : ccEmail, "task": task}),
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(task) {
+                console.log("mail sent");
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }
+
+    $scope.sendCommentNotificationEmail = function(taskId, creator, comment) {
+
+        console.log(taskId);
+        console.log(creator); 
+        console.log(comment);   
+        console.log("im here");
+        $.ajax({ 
+            type: "POST",
+            url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks/" + taskId + "/comment",
+            data: JSON.stringify({"creator": creator, "comment": comment}),
+            crossDomain: true,
+            dataType: "json",
+            contentType: 'application/json',
+            processData: false,
+            success: function(task) {
+                console.log("mail sent");
+            },
+            error: function(error) {
+              console.log(error);
+            }
+        });
+
+    }
+
+
     $scope.submitTaskForm = function() {
 
         var assigneeId;
         var assigneeUsername;
+        var assignedUser;
 
         if($scope.assignedUser != null)
         {
@@ -182,29 +234,19 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                 success: function(task) {
                     
                     console.log(task);
+                    task.creator = $scope.currentUser;
+                    task.assignee = $scope.assignedUser;
                     $scope.targetedWorkflow.tasks.push(task);
                     $scope.$apply();
                     $('#task-form').modal('hide');
                     $scope.clearTaskForm();
                     //send mail to task
                     if(typeof($scope.assignedUser) != 'undefined') {
-                        $.ajax({ 
-                            type: "POST",
-                            url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks",
-                            data: JSON.stringify({"recipientEmail": $scope.assignedUser.email, "assigner": $scope.currentUser, "task": task}),
-                            crossDomain: true,
-                            dataType: "json",
-                            contentType: 'application/json',
-                            processData: false,
-                            success: function(task) {
-                                
-                                console.log("mail sent");
-                            },
-                            error: function(error) {
-                              console.log(error);
-                            }
-                        });
+                        console.log(task);
+                        $scope.sendTaskNotificationEmail(task.assignee.email, task.creator.email, task);
+
                     }
+
                 },
                 error: function(error) {
                   console.log(error);
@@ -227,6 +269,14 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                 processData: false,
                 success: function(task) {
                     
+                    task.creator = $scope.currentUser;
+                    
+
+                    if($scope.assignedUser != null)
+                    {
+                        task.assignee = $scope.assignedUser;
+                    }
+
                     console.log("editted task ");
                     console.log(task);
 
@@ -267,10 +317,19 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
                     }
 
+                    if($scope.assignedUser != null) {
+
+                        for(i = 0; i < $scope.taskFormWorkflow.tasks.length; i++) {
+
+                            if($scope.taskFormWorkflow.tasks[i]._id == task._id)
+                            { 
+                                $scope.sendTaskNotificationEmail($scope.assignedUser.email, $scope.taskFormWorkflow.tasks[i].creator.email, task);
+                            }
+                        }
+                    }
+
                     $('#task-form').modal('hide');
                     $scope.clearTaskForm();
-                    //$scope.dismissCreateTaskPopupButtonClicked(); 
-
                 },
                 error: function(error) {
                   console.log(error);
@@ -449,13 +508,11 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.assigneeInputKeyEvent = function(keyEvent) {
 
-        //console.log($scope.taskFormAssignee);
+        console.log($scope.taskFormAssignee);
         if($scope.taskFormAssignee == "")
         {
             $scope.assignees = [];         
         }
-        console.log($scope.taskFormAssignee);
-
         $.ajax({ 
           type: "GET",
           url: "http://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.taskFormAssignee,
@@ -560,10 +617,14 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             processData: false,
             success: function(comment) {
                 
+                $scope.sendCommentNotificationEmail($scope.taskFormId, $scope.currentUser.username, newComment);
+                
                 comment.creator = $scope.currentUser;
                 $scope.newComment = "";
                 $scope.comments.push(comment);
                 $scope.$apply();
+
+
             },
             error: function(error) {
               console.log(error);
@@ -608,6 +669,8 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             $scope.taskFormWorkflow = "";
             $scope.taskFormPriority = "";
             $scope.comments = [];
+            $scope.assignedUser = "";
+            $(".assigneeInput").css("display", "block");
             $scope.$apply();
         });
 

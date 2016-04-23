@@ -48,40 +48,19 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
 
     //$locationProvider.html5Mode(true);
 
-}]).run( function($rootScope, $location, currentUserService, $document, $cookies) {
+}]).run( function($rootScope, $location, currentUserService, $document, $cookies, $route) {
 
     var cookies = $cookies;
     $rootScope.$on("$routeChangeStart", function(event, next, currentUserService, $cookies) {
-        console.log("im here");
-        
-        console.log(cookies);
+
         if(cookies.currentUser == "") {
         
             $location.path( "/login" );
 
         }
-    });        
+    });
+       
 });
 
-$(document).ready(function() {
-    $("[rel='tooltip'], .tooltip").tooltip();
-});
 
-$(function () {
-    $('.list-group-item > .show-menu').on('click', function(event) {
-    event.preventDefault();
-    $(this).closest('li').toggleClass('open');
-  });
-});
-
-var controllers = {};
-controllers.testController = function($scope){
-   $scope.first = "Info";
-    $scope.customers=[
-        {name:'jerry',city:'chicago'},
-        {name:'tom',city:'houston'},
-        {name:'enslo',city:'taipei'}
-    ];
-}
-
-odysseyApp.controller(controllers)
+//odysseyApp.controller(controllers)

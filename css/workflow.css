@@ -3,7 +3,8 @@
 	height:120px; 
 	width:120px; 
 	border-radius:50%; 
-	position: absolute; 
+	position: fixed; 
+	z-index: 3;
 	right:50px; 
 	bottom:30px; 
 	background-color:#0074D9; 
@@ -52,6 +53,18 @@
 
 }
 
+.task-creator {
+	word-break:break-all; 
+	margin-right: 10px;
+	display: none;
+}
+
+.task-assignee {
+	word-break:break-all; 
+	margin-right: 10px;
+	display: none;
+}
+
 .task-remove-button {
 	float: left;
 	display: none;
@@ -68,6 +81,14 @@
     display: block;
 }
 
+.task-box:hover .task-creator {
+    display: block;
+}
+
+.task-box:hover .task-assignee {
+    display: block;
+}
+
 .task-box:hover .task-remove-button {
     display: block;
 }
@@ -76,13 +97,9 @@
     display: block;
 }
 
-
-
-
 .workflow-list {
 	list-style-type: none;
 	list-style: none;
-
 }
 
 .workflow {
@@ -480,6 +497,11 @@ table td {
     width: 50px;
     //white-space: nowrap;
 }
+
+.row-fluid {
+     white-space: nowrap;
+}
+
 
 
 

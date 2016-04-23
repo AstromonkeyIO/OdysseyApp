@@ -37,8 +37,8 @@
     </ul>
 </nav>
 
-<div class="container">       
-   <div id="workflow-container" class="row">
+<div class="container" style="overflow: auto">       
+   <div id="workflow-container" class="row-fluid">
     <div class="modal fade" id="workflow-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -241,7 +241,7 @@
         <div id="{{workflow._id}" class='col-lg-4 col-lg-4' ng-model="workflowId">
             <div class='panel panel-default'>
                 <div class='panel-heading'>
-                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>{{workflow.title}}</a>
+                    <h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href=''>{{workflow.title}}</a>
                     <a class="edit-workflow-button" data-toggle="modal" data-target="#edit-workflow-form" ng-click="setTargetWorkflow(workflow)"> 
                         <span class="glyphicon glyphicon-option-vertical"></span>
                     </a>
@@ -255,10 +255,10 @@
                                 <a href="#" style="text-decoration: none !important;" class="task-link">
                                 <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.title}}</p>
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
-                                <div>{{task.creator.username}}</div>
+                                <p class="task-creator">Creator: {{task.creator.username}}</p>
+                                <p ng-if="task.assignee" class="task-assignee">Assignee: {{task.assignee.username}}</p>
                                 <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
-                                <button type="button" class="btn btn-primary btn-md task-edit-button" ng-click="editTask(task, workflow); $event.preventDefault()" data-toggle="modal" data-target="#task-form" ><i class="glyphicon glyphicon-cog"></i></button>
-                                
+                                <button type="button" class="btn btn-primary btn-md task-edit-button"data-toggle="modal" data-target="#task-form" ng-click="editTask(task, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>
                                 <button ng-if="task.priority=='P3'" type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
                                 <button ng-if="task.priority=='P2'" type="button" class="btn btn-primary btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
                                 <button ng-if="task.priority=='P1'" type="button" class="btn btn-danger btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>

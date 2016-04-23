@@ -2,6 +2,9 @@ odysseyApp.controller('loginController', function($rootScope, $scope, $location,
 
     $scope.submit = function() {
 
+        $('#login-button').prop('disabled', true);
+        $('#login-button').html('Logging in').fadeIn();
+
         $.ajax({ 
             type: "GET",
             url: "http://odysseyapistaging.herokuapp.com/api/users/"+ $scope.username +"/" + $scope.password,
@@ -18,15 +21,27 @@ odysseyApp.controller('loginController', function($rootScope, $scope, $location,
             d.setTime(d.getTime() + (1*24*60*60*1000));
             var expires = "expires="+d.toUTCString();
             $document.cookie = "currentUser"+ "=" + JSON.stringify(user) + "; " + expires;
-            //$document.cookie = user;
             currentUserService.setCurrentUser(user);
-            //console.log($document.cookie);
-            $location.path("/boards");
-            $scope.$apply();
+
+            $('#login-button').prop('disabled', false);
+            $('#login-button').html('Login Success!').fadeIn();
+            setTimeout(function() {
+                $location.path("/boards");
+                $scope.$apply();
+            }, 700);
 
             },
             error: function(error) {
-                console.log(error);
+                $('#login-button').prop('disabled', false);
+                $('#login-button').html('Login Failed!').fadeIn();
+                $('#login-button').css('background-color', '#d9534f');
+                $('#login-button').css('border-color', '#d9534f');
+                setTimeout(function() {
+                    $('#login-button').html('Login').fadeIn();
+                    $('#login-button').css('background-color', '#449d44');
+                    $('#login-button').css('border-color', '#449d44');
+                }, 700);
+
             }
         });
 
