@@ -97,7 +97,7 @@
     <div class="modal fade" id="task-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true" ng-model="boardPopupState">
         <div class="modal-dialog">
-            <div class="modal-content" style="height:500px;">
+            <div class="modal-content" style="height:550px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <button id="dismiss-create-task-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" ng-click="dismissTaskForm()"><i class="glyphicon glyphicon-remove"></i></button>      
@@ -163,6 +163,17 @@
                                     </div>
                                 </div>
                         </div>
+                        <div class="input-group" style="margin:20px;">
+                            <div style="float:left; width:35%;">
+                                <div class="input-group">
+                                    <span class="input-group-addon success"><span class="glyphicon glyphicon-signal"></span> Progress</span>
+                                    <input id="task-form-progress" type="number" class="form-control input-lg" ng-model="taskFormProgress" ng-keyup="updateProgress()">
+                                </div>
+                            </div>
+                            <div style="float:right; width:45%;">
+                            </div>
+                        </div>
+
                         <div style="margin:20px;">
                         <button id="create-task-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" style="text-transform: uppercase;" ng-disabled="!taskFormName">{{taskFormState}}</button>
                         </div>
@@ -262,16 +273,14 @@
                                 <button ng-if="task.priority=='P3'" type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
                                 <button ng-if="task.priority=='P2'" type="button" class="btn btn-primary btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
                                 <button ng-if="task.priority=='P1'" type="button" class="btn btn-danger btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
-
-
-                                <button type="button" class="btn btn-info btn-md task-edit-button" ng-click="$event.preventDefault()">50%</button>
+                                <button ng-if="task.progress"type="button" class="btn btn-info btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.progress}}%</button>
+                                <button ng-if="!task.progress"type="button" class="btn btn-info btn-md task-edit-button" ng-click="$event.preventDefault()">0%</button>
                                 <button type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()"><i class="glyphicon glyphicon-calendar"></i>  3wk</button>
                                 <span ng-if="task.priority=='P3'" class="show-menu P3">
                                 </span>
                                 <span ng-if="task.priority=='P2'" class="show-menu P2">
                                 </span>
                                 <span ng-if="task.priority=='P1'" class="show-menu P1">
-                                </span>                                                                
                                 </span>
                                 </a>
                             </li> 

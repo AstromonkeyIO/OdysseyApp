@@ -204,6 +204,12 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
     }
 
+    $scope.logout = function() {
+
+        $cookies.currentUser = "";  
+        $location.path("/login");   
+
+    }
 
     // remove user
     $(document).on("click", ".remove-user-button", function(){

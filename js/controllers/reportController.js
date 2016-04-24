@@ -95,6 +95,13 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 
 	}
 
+    $scope.logout = function() {
+
+		$cookies.currentUser = "";  
+		$location.path("/login");  	
+
+    }
+
     //code for left menu bar
     $(function () {
         /* START OF DEMO JS - NOT NEEDED */

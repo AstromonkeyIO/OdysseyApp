@@ -36,6 +36,10 @@ odysseyApp.config(['$routeProvider', '$locationProvider', '$httpProvider', funct
         controller: 'workflowController',
         templateUrl: '/html/workflow.html'
     })
+    .when('/boards/:boardId/:taskId', {
+        controller: 'workflowController',
+        templateUrl: '/html/workflow.html'
+    })
     .when('/team/', {
         controller: 'teamController',
         templateUrl: '/html/team.html'

@@ -5,6 +5,8 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 
 	$scope.boardPopupState = "create";
 	$scope.editBoardId = "";
+
+	$scope.searchTaskResults = [];
     
 	$scope.currentUser = JSON.parse($cookies.currentUser);
 	console.log($scope.currentUser.username);
@@ -144,6 +146,38 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 		$scope.boardPopupState = "create";			
 	}
 
+	$scope.searchTaskInputEvent = function(e) {
+		console.log($scope.searchTaskKey);
+
+		$scope.searchTaskResults = [];
+
+		if($scope.searchTaskKey) {
+
+	        $.ajax({ 
+	          type: "GET",
+	          url: "http://odysseyapistaging.herokuapp.com/api/tasks?q=" + $scope.searchTaskKey,
+	          crossDomain: true,
+	          dataType: "json",
+	          contentType: 'application/json',
+	          processData: false,
+	          success: function(taskResults) {
+	          	console.log(taskResults);
+	          	$scope.searchTaskResults = taskResults;
+	          	$scope.$apply();
+
+	          },
+	          error: function(error) {
+	            console.log(error);
+	          }
+	        });
+
+    	}
+
+	}
+
+	$scope.navigateToTask = function(boardId, taskId) {
+		$location.path("/boards/"+boardId+"/"+taskId); 
+	}
 
     //code for left menu bar
     $(function () {

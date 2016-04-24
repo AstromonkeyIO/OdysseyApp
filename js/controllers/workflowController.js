@@ -29,6 +29,22 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
                 $scope.workflows.push(workflows[i]);
 
+                if($routeParams.boardId && $routeParams.taskId) {
+
+                    for(var k = 0; k < $scope.workflows.length; k++) {
+
+                        for(var y = 0; y < $scope.workflows[k].tasks.length; y++) {
+                            if($scope.workflows[k].tasks[y]._id ==  $routeParams.taskId) {
+                                $scope.editTask($scope.workflows[k].tasks[y], $scope.workflows[k]);
+                                $('#task-form').modal('show');
+                                break;
+                            }
+
+                        }
+                    }
+
+                }
+
             }
             $scope.$apply();
         },
@@ -116,6 +132,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormDate = task.dueDate;
+        $scope.taskFormProgress = task.progress;
         console.log(task.dueDate);
         console.log($filter("date")(task.dueDate, 'yyyy-MM-dd'));
         $('#task-form-date').val($filter("date")(task.dueDate, 'yyyy-MM-dd'));
@@ -137,12 +154,13 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     }
 
 
-    $scope.task = function(title, description, creator, workflow, priority, dueDate, assignee, activity) {
+    $scope.task = function(title, description, creator, workflow, priority, progress, dueDate, assignee, activity) {
         this.title = title;
         this.description = description;
         this.creator = creator;
         this.workflow = workflow;
         this.priority = priority;
+        this.progress = progress;
         this.dueDate = dueDate;
         this.assignee = assignee;
         this.activity = activity;
@@ -221,12 +239,12 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         if($scope.taskFormState == "create") {    
 
-            taskRecord = JSON.stringify(new $scope.task($scope.taskFormName, $scope.taskFormDescription, $scope.currentUser.username, $scope.targetedWorkflow.title, $scope.taskFormPriority, $scope.taskFormDate, assigneeUsername, "Create"));
+            taskRecord = JSON.stringify(new $scope.task($scope.taskFormName, $scope.taskFormDescription, $scope.currentUser.username, $scope.targetedWorkflow.title, $scope.taskFormPriority, $scope.taskFormProgress, $scope.taskFormDate, assigneeUsername, "Create"));
 
             $.ajax({ 
                 type: "POST",
                 url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetedWorkflow._id +"/tasks",
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "creatorId": $scope.currentUser._id , "dueDate": $scope.taskFormDate, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, "taskRecord": taskRecord}),
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "creatorId": $scope.currentUser._id , "dueDate": $scope.taskFormDate, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, "taskRecord": taskRecord, "progress": $scope.taskFormProgress}),
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
@@ -257,12 +275,12 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
             // edit task and save to database
 
-            taskRecord = JSON.stringify(new $scope.task($scope.taskFormName, $scope.taskFormDescription, $scope.currentUser.username, $scope.targetedWorkflow.title, $scope.taskFormPriority, $scope.taskFormDate, assigneeUsername, "Edit"));
+            taskRecord = JSON.stringify(new $scope.task($scope.taskFormName, $scope.taskFormDescription, $scope.currentUser.username, $scope.targetedWorkflow.title, $scope.taskFormPriority, $scope.taskFormProgress, $scope.taskFormDate, assigneeUsername, "Edit"));
 
             $.ajax({ 
                 type: "PUT",
                 url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
-                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "dueDate": $scope.taskFormDate, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, 'taskRecord': taskRecord}),                
+                data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "dueDate": $scope.taskFormDate, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, "progress": $scope.taskFormProgress, 'taskRecord': taskRecord}),                
                 crossDomain: true,
                 dataType: "json",
                 contentType: 'application/json',
@@ -339,6 +357,15 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         }
 
     }
+
+
+    $scope.logout = function() {
+
+        $cookies.currentUser = "";  
+        $location.path("/login");   
+
+    }
+
 
   $scope.dismissPopupButtonClicked = function() 
   {
@@ -488,6 +515,9 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
     }
     /* */    
 
+    $scope.updateProgress = function() {
+        console.log($scope.taskFormProgress);
+    }
 
 
 
@@ -675,7 +705,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         });
 
     });
-    //
+
 
 
 

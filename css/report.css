@@ -32,7 +32,7 @@ background-color: #1a4567 !important;
     font-size: 16px;
 }
 
-/* CSS clases for left menu bar*/
+/* CSS classes for left menu bar*/
 .animate {
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
@@ -194,3 +194,4 @@ background-color: #1a4567 !important;
         opacity: 1;
     }
 }
+/**/
