@@ -33,8 +33,18 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
             contentType: 'application/json',
             processData: false,
             success: function(invitee) {
-                console.log(invitee);
-                $scope.sendSignupInvite(invitee.email, "bob");
+
+                $('.invite-button').prop('disabled', false);
+
+                if(typeof(invitee.error) != 'undefined') {
+                    $('.invite-button').html(invitee.error).fadeIn();
+                    setTimeout(function() {
+                        $('.invite-button').html('Send an Invite!').fadeIn();
+                    }, 1000);
+                } else {
+                    $scope.sendSignupInvite(invitee.email, $scope.currentUser.username); 
+                }
+
             },
             error: function(error) {
                 console.log(error);
@@ -50,6 +60,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
     $scope.sendSignupInvite = function(email, sender) {
 
+        console.log("i'm here");
         $.ajax({ 
             type: "POST",
             url: "http://odysseyapistaging.herokuapp.com/api/mail/invite",
@@ -58,7 +69,8 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
             dataType: "json",
             contentType: 'application/json',
             processData: false,
-            success: function(task) {
+            success: function(mail) {
+                console.log(mail);
                 $('.invite-button').prop('disabled', false);
                 $('.invite-button').html('Invite Sent!').fadeIn();
                 setTimeout(function() {
@@ -107,7 +119,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
                         '               </div>'+
                         '                   <img src="http://placehold.it/60x60">'+
                         '               <h1>' +  users[i].username + '</h1>'+
-                        '               <h2>Co-founder/ Operations</h2>'+
+                        '               <h2>' + users[i].title +'</h2>'+
                         '               <div id="'+ users[i]._id +'" class="user-buttons">'+
                         '                   <button type="button" class="btn btn-success">'+
                         '                       <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="emailUser()"></span> Message'+
