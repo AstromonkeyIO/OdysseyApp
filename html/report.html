@@ -69,9 +69,6 @@
     background-color: #3D9970;
 }
 
-
-
-
 .list-group-item > .task-link > .show-menu > span {
     position: absolute;
     top: 50%;
@@ -337,14 +334,15 @@
         <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Created By <span class="caret"></span></button>
             <ul class="dropdown-menu">
-            <li><a href="" ng-click="selectedCreatedBy()">Created By</a></li>
-            <li><a href="" ng-click="selectedAssignedTo()">Assigned To</a></li>
-            <li><a href="" ng-click="selectedBoards()">Board</a></li>
+                <li><a href="" ng-click="selectedCreatedBy()">Created By</a></li>
+                <li><a href="" ng-click="selectedAssignedTo()">Assigned To</a></li>
+                <li><a href="" ng-click="selectedBoards()">Board</a></li>
             </ul>
         </div><!-- /btn-group -->
-        <input type="text" aria-label="..." ng-model="searchInput" ng-keyup="searchInputKeyEvent($event)" autocomplete="off"><button ng-click="searchTasks()">Search</button>
+        <input type="text" aria-label="..." ng-model="searchInput" ng-keyup="searchInputKeyEvent($event)" autocomplete="off" style="height: 100%;"><button ng-click="searchTasks()" style="height: 100%;">Search</button>
         <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:200px;">
-        <li ng-repeat="user in users"><button type="button" ng-click="selectUser(user)" style="height:40px; width:230px;">{{user.username}}</button></li>
+        <li ng-if="searchSelector == 'createdBy' || searchSelector == 'assignedTo'" ng-repeat="searchResult in searchResults"><button type="button" ng-click="selectUser(searchResult)" style="height:40px; width:230px;">{{searchResult.username}}</button></li>
+        <li ng-if="searchSelector == 'boards'" ng-repeat="searchResult in searchResults"><button type="button" ng-click="selectBoard(searchResult)" style="height:40px; width:230px;">{{searchResult.title}}</button></li>
         </ul>
     </div><!-- /input-group -->
     </div>
@@ -359,6 +357,7 @@
             <th>Description</th>
             <th>Workflow</th>
             <th>Priority</th>
+            <th>Progress</th>
             <th>Due Date</th>
             <th>Assignee</th>
         </tr>
@@ -371,8 +370,11 @@
             <td>{{task.description}}</td>
             <td>{{task.workflow.title}}</td>
             <td>{{task.priority}}</td>
-            <td>{task.dueDate}}</td>
-            <td>{task.assignee.username}}</td>
+            <td>{{task.progress}}</td>
+            <td ng-if="task.dueDate">{task.dueDate}}</td>
+            <td ng-if="!task.dueDate">none</td>
+            <td ng-if="task.assignee.username">{task.assignee.username}}</td>
+            <td ng-if="!task.assignee.username">none</td>            
         </tr>
     </tbody>
   </table>

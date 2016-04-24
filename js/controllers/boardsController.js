@@ -45,17 +45,24 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 			$.ajax({ 
 				type: "POST",
 				url: "http://odysseyapistaging.herokuapp.com/api/boards",
-				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription, "creatorId": $scope.currentUser._id }),
+				data: JSON.stringify({ "title": $scope.newBoardTitle, "description": $scope.newBoardDescription, "creatorId": $scope.currentUser._id, "boardKey": $scope.newBoardKey }),
 				crossDomain: true,
 				dataType: "json",
 				contentType: 'application/json',
 				processData: false,
 				success: function(board) {
 					
-					board.creator = $scope.currentUser;
-					$scope.boardsList.push(board);
-					$scope.$apply();
-					$('#createBoardPopup').modal('hide')
+					if(typeof(board.error) != 'undefined') {
+						$('#create-board-button').html(board.error);
+
+					} else {
+
+						board.creator = $scope.currentUser;
+						$scope.boardsList.push(board);
+						$scope.$apply();
+						$('#createBoardPopup').modal('hide');
+
+					}
 
 				},
 				error: function(error) {

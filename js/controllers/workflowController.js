@@ -701,6 +701,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             $scope.comments = [];
             $scope.assignedUser = "";
             $(".assigneeInput").css("display", "block");
+            $scope.newWorkflowTitle = "";
             $scope.$apply();
         });
 

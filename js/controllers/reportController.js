@@ -7,30 +7,54 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 
     $scope.searchInputKeyEvent = function(keyEvent) {
 
-        if($scope.searchInput == "")
-        {
-            $scope.users = [];         
-        } 
+        $scope.searchResults = [];
 
-		$.ajax({ 
-		  type: "GET",
-		  url: "http://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.searchInput,
-		  crossDomain: true,
-		  dataType: "json",
-		  contentType: 'application/json',
-		  processData: false,
-		  success: function(users) {
-		    
-		    $scope.users = [];
-		    console.log(users);
-		    $scope.users = users;
-		    $scope.$apply();
+		if($scope.searchInput && ($scope.searchSelector == "createdBy" || $scope.searchSelector == "assignedTo")) {
 
-		  },
-		  error: function(error) {
-		    console.log(error);
-		  }
-		});
+			$.ajax({ 
+			  type: "GET",
+			  url: "http://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.searchInput,
+			  crossDomain: true,
+			  dataType: "json",
+			  contentType: 'application/json',
+			  processData: false,
+			  success: function(users) {
+			    
+			    $scope.searchResults = [];
+			    $scope.searchResults = users;
+
+			    console.log($scope.searchResults);
+			    $scope.$apply();
+
+			  },
+			  error: function(error) {
+			    console.log(error);
+			  }
+			});
+
+		} else if($scope.searchInput && $scope.searchSelector == "boards") {
+
+			$.ajax({ 
+			  type: "GET",
+			  url: "http://odysseyapistaging.herokuapp.com/api/boards?q=" + $scope.searchInput,
+			  crossDomain: true,
+			  dataType: "json",
+			  contentType: 'application/json',
+			  processData: false,
+			  success: function(users) {
+			    
+			    $scope.searchResults = [];
+			    $scope.searchResults = users;
+
+			    console.log($scope.searchResults);
+			    $scope.$apply();
+
+			  },
+			  error: function(error) {
+			    console.log(error);
+			  }
+			});
+		}
 
     }
 
@@ -42,12 +66,22 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 		$scope.searchSelector = "assignedTo";	
     }
 
+    $scope.selectedBoards = function() {
+		$scope.searchSelector = "boards";	
+    }
+
 	$scope.selectUser = function(user) {
 
 		$scope.selectedUser = user;
 		$scope.searchInput = user.username;
-		$scope.users = [];
+		$scope.searchResults = [];
 
+	}
+
+	$scope.selectBoard = function(board) {
+		$scope.selectedBoard = board;
+		$scope.searchInput = board.title;
+		$scope.searchResults = [];	
 	}
 
 	$scope.searchTasks = function() {
@@ -90,6 +124,34 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 				}
 			});
 
+		} else if($scope.searchSelector === "boards") {
+			
+		    $.ajax({ 
+		        type: "GET",
+		        url: "http://odysseyapistaging.herokuapp.com/api/boards/" + $scope.selectedBoard._id + "/workflows",
+		        crossDomain: true,
+		        dataType: "json",
+		        contentType: 'application/json',
+		        processData: false,
+		        success: function(workflows) {
+
+		            var tempTasks = [];
+		            for(i = 0; i < workflows.length; i++)
+		            {
+		            	for(k = 0; k < workflows[i].tasks.length; k++) {
+							workflows[i].tasks[k].workflow = workflows[i];
+		            		tempTasks.push(workflows[i].tasks[k]);
+
+		            	}
+
+		            }
+		            $scope.tasks = tempTasks;
+		            $scope.$apply();
+		        },
+		        error: function(error) {
+		            console.log(error);
+		        }
+		    }); 
 
 		}
 

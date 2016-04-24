@@ -40,13 +40,13 @@
             <div class="input-group custom-search-form">
             <input type="text" class="form-control" ng-model="searchTaskKey" ng-keyup="searchTaskInputEvent($event)" autocomplete="off">
             <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
+            <button class="btn" type="button" style="background-color: #0074D9; color: white;">
             <span class="glyphicon glyphicon-search"></span>
             </button>
             </span>
             </div>
-            <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:300px; max-height: 400px; overflow:auto;">
-			<li ng-repeat="searchTaskResult in searchTaskResults"><button type="button" ng-click="navigateToTask(searchTaskResult.board, searchTaskResult._id)" style="height:40px; width:300px; background-color:white; outline: none; border: none; box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px; background-color: #F7F7F7;">{{searchTaskResult.title}}</button></li>
+            <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:300px; max-height: 400px; overflow:auto; box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
+			<li ng-repeat="searchTaskResult in searchTaskResults"><button type="button" ng-click="navigateToTask(searchTaskResult.board, searchTaskResult._id)" style="height:40px; width:300px; background-color:white; border: none; background-color: #F7F7F7;">{{searchTaskResult.title}}</button></li>
 			</ul>
          </div>
     	</nav>
@@ -99,7 +99,7 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-primary" ng-disabled="!newBoardTitle && !newBoardKey">Create Board!</button>
+								<button id="create-board-button" type="submit" class="btn btn-primary" ng-disabled="!newBoardTitle && !newBoardKey">Create Board!</button>
 							</div>
 						</form>					
 					</div>

@@ -37,22 +37,30 @@
     </ul>
 </nav>
 
+<!-- Create Workflow Form -->
 <div class="container" style="overflow: auto">       
    <div id="workflow-container" class="row-fluid">
     <div class="modal fade" id="workflow-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" style="height:220px;">
-                <!-- Modal Header -->
-                <button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" style="margin:20px;"><i class="glyphicon glyphicon-remove" ng-click="dismissWorkflowForm()"></i></button>
+                <div class="modal-header">
+                        <button type="button" class="close"
+                        data-dismiss="modal" ng-click="dismissBoardPopup()">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">
+                    </h4>
+                </div>
                 <!-- Modal Body -->
-                <div class="modal-body" style="margin-top: 30px;"> 
+                <div class="modal-body"> 
                     <form ng-submit="addNewWorkflow()" style="text-align:center;">
-                        <div class="input-group" style="margin:20px;">
+                        <div class="input-group" style="margin:13px;">
                             <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
                             <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Workflow!" ng-model="newWorkflowTitle" ng-keyup="checkDataInCreateNewWorkflowInput()">
                         </div>
-                        <div style="margin:20px;">
+                        <div style="margin:13px;">
                         <button id="create-new-workflow-button" type="submit" class="btn btn-primary col-xs-12 btn-lg" ng-disabled="!newWorkflowTitle">Create</button>
                         </div>
                     </form>                               
@@ -66,19 +74,29 @@
     <div class="modal fade" id="edit-workflow-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
+
+
             <div class="modal-content" style="height:220px;">
                 <!-- Modal Header -->
-                <button id="dismiss-popup-button" type="button" class="btn btn-danger btn-md" data-dismiss="modal" style="margin:20px;"><i class="glyphicon glyphicon-remove"></i></button>
+                <div class="modal-header">
+                        <button type="button" class="close"
+                        data-dismiss="modal" ng-click="dismissBoardPopup()">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                    </h4>
+                </div>
                 <!-- Modal Body -->
-                <div class="modal-body" style="margin-top: 30px;"> 
+                <div class="modal-body"> 
                     <div style="text-align:center;">
-                        <div class="input-group" style="margin:20px;">
+                        <div class="input-group" style="margin:13px;">
                             <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
                             <input id="create-new-workflow-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="Rename Workflow!" ng-model="editWorkflowTitle">
                         </div>
-                        <div style="margin:20px;">
-                            <button type="submit" style="border-radius: 0px;" class="btn btn-primary col-xs-6 btn-lg" ng-click="editWorkflow()">Edit</button>
-                            <button type="submit" style="border-radius: 0px;" class="btn btn-danger col-xs-6 btn-lg" ng-click="deleteWorkflow()">Delete</button>  
+                        <div style="margin:13px;">
+                            <button type="submit" style="border-radius: 0px;" class="btn btn-primary col-xs-6 btn-lg" ng-click="editWorkflow()"><i class="glyphicon glyphicon-cog"></i> Edit</button>
+                            <button type="submit" style="border-radius: 0px;" class="btn btn-danger col-xs-6 btn-lg" ng-click="deleteWorkflow()"><i class="glyphicon glyphicon-trash"></i> Delete</button>  
                         </div>
                     </div>                              
                 </div>
@@ -167,7 +185,7 @@
                             <div style="float:left; width:35%;">
                                 <div class="input-group">
                                     <span class="input-group-addon success"><span class="glyphicon glyphicon-signal"></span> Progress</span>
-                                    <input id="task-form-progress" type="number" class="form-control input-lg" ng-model="taskFormProgress" ng-keyup="updateProgress()">
+                                    <input id="task-form-progress" type="number" maxlength="3" min="0" max="100" class="form-control input-lg" ng-model="taskFormProgress" ng-keyup="updateProgress()">
                                 </div>
                             </div>
                             <div style="float:right; width:45%;">
@@ -180,7 +198,7 @@
                     </form> 
                     </div> 
                     <div class="task-comments-view">
-                        <div style="width:100%; height: 350px; overflow: auto">
+                        <div style="width:100%; height: 430px; overflow: auto">
                         <ul class="media-list" ng-repeat="comment in comments" >
                             <li class="media">
                                 <div class="media-left">
@@ -268,7 +286,7 @@
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <p class="task-creator">Creator: {{task.creator.username}}</p>
                                 <p ng-if="task.assignee" class="task-assignee">Assignee: {{task.assignee.username}}</p>
-                                <button type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button ng-if="task.creator._id == currentUser._id" type="button" class="btn btn-danger btn-md task-remove-button" ng-click="deleteTask(task._id, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
                                 <button type="button" class="btn btn-primary btn-md task-edit-button"data-toggle="modal" data-target="#task-form" ng-click="editTask(task, workflow); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>
                                 <button ng-if="task.priority=='P3'" type="button" class="btn btn-success btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
                                 <button ng-if="task.priority=='P2'" type="button" class="btn btn-primary btn-md task-edit-button" ng-click="$event.preventDefault()">{{task.priority}}</button>
