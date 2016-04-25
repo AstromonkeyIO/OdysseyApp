@@ -37,6 +37,25 @@
     </ul>
 </nav>
 
+<!-- Search Bar -->
+<nav class="search-bar" role="navigation">
+    <div style="">
+    <div class="input-group custom-search-form">
+    <input type="text" class="form-control" ng-model="searchTaskKey" ng-keyup="searchTaskInputEvent($event)" autocomplete="off">
+    <span class="input-group-btn">
+    <button class="btn" type="button" style="background-color: #0074D9; color: white;">
+    <span class="glyphicon glyphicon-search"></span>
+    </button>
+    </span>
+    </div>
+    <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:300px; max-height: 400px; overflow:auto; box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
+    <li ng-repeat="searchTaskResult in searchTaskResults"><button type="button" ng-click="navigateToTask(searchTaskResult.board, searchTaskResult._id)" style="height:40px; width:300px; background-color:white; border: none; background-color: #F7F7F7;">{{searchTaskResult.taskId}}: {{searchTaskResult.title}}</button></li>
+    </ul>
+ </div>
+</nav>
+<!-- -->
+
+
 <!-- Create Workflow Form -->
 <div class="container" style="overflow: auto">       
    <div id="workflow-container" class="row-fluid">
@@ -74,7 +93,6 @@
     <div class="modal fade" id="edit-workflow-form" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-
             <div class="modal-content" style="height:220px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
@@ -250,7 +268,7 @@
                                     <td>{{taskRecord.creator}}</td>
                                     <td>{{taskRecord.workflow}}</td>
                                     <td>{{taskRecord.priority}}</td>
-                                    <td>{{taskRecord.dueDate}</td>
+                                    <td>{{taskRecord.dueDate}}</td>
                                     <td>{{taskRecord.assignee}}</td>
                                     <td>{{taskRecord.activity}}</td>
                                 </tr>
@@ -281,7 +299,7 @@
                         <div style="max-height: 350px; overflow-y:scroll;">
                         <ul class='list-group' ng-repeat="task in workflow.tasks">
                             <li id="{{task._id}}" class="list-group-item task-box">
-                                <a href="#" style="text-decoration: none !important;" class="task-link">
+                                <a href="" style="text-decoration: none !important;" class="task-link">
                                 <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.taskId}}: {{task.title}}</p>
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <p class="task-creator">Creator: {{task.creator.username}}</p>

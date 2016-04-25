@@ -371,10 +371,10 @@
             <td>{{task.workflow.title}}</td>
             <td>{{task.priority}}</td>
             <td>{{task.progress}}</td>
-            <td ng-if="task.dueDate">{task.dueDate}}</td>
+            <td ng-if="task.dueDate">{{task.dueDate}}</td>
             <td ng-if="!task.dueDate">none</td>
-            <td ng-if="task.assignee.username">{task.assignee.username}}</td>
-            <td ng-if="!task.assignee.username">none</td>            
+            <td ng-if="task.assignee.username">{{task.assignee.username}}</td> 
+            <td ng-if="!task.assignee.username">none</td>           
         </tr>
     </tbody>
   </table>

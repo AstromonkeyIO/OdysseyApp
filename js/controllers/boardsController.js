@@ -52,16 +52,21 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 				processData: false,
 				success: function(board) {
 					
+					$('#create-board-button').prop('disabled', true);
+        			$('#create-board-button').html('Creating Board...').fadeIn();
 					if(typeof(board.error) != 'undefined') {
+						$('#create-board-button').prop('disabled', false);
 						$('#create-board-button').html(board.error);
+						setTimeout(function() {
+        					$('#create-board-button').html('Create Board!').fadeIn();
+            			}, 1000);
 
 					} else {
-
 						board.creator = $scope.currentUser;
 						$scope.boardsList.push(board);
 						$scope.$apply();
 						$('#createBoardPopup').modal('hide');
-
+						$('#create-board-button').html('Create Board!').fadeIn();
 					}
 
 				},

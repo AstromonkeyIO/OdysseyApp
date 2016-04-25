@@ -46,7 +46,7 @@
             </span>
             </div>
             <ul style="padding:0; position: absolute; z-index: 3; list-style-type: none; width:300px; max-height: 400px; overflow:auto; box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
-			<li ng-repeat="searchTaskResult in searchTaskResults"><button type="button" ng-click="navigateToTask(searchTaskResult.board, searchTaskResult._id)" style="height:40px; width:300px; background-color:white; border: none; background-color: #F7F7F7;">{{searchTaskResult.title}}</button></li>
+			<li ng-repeat="searchTaskResult in searchTaskResults"><button type="button" ng-click="navigateToTask(searchTaskResult.board, searchTaskResult._id)" style="height:40px; width:300px; background-color:white; border: none; background-color: #F7F7F7;">{{searchTaskResult.taskId}}: {{searchTaskResult.title}}</button></li>
 			</ul>
          </div>
     	</nav>

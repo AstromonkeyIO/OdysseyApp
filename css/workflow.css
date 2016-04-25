@@ -18,6 +18,16 @@
 
 }
 
+.search-bar {
+	position: fixed; 
+	z-index: 10; 
+	width: 300px; 
+	margin: 5% auto; 
+	left: 0; 
+	right: 0; 
+	margin-top:10px;
+}
+
 #add-task-button
 {
 	height:50px; 

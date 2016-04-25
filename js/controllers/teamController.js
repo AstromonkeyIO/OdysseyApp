@@ -1,4 +1,4 @@
-odysseyApp.controller('teamController', function ($scope, $routeParams, $compile, currentUserService, $cookies) 
+odysseyApp.controller('teamController', function ($scope, $routeParams, $compile, currentUserService, $cookies, $location) 
 {   
 
     $scope.newMemberRole = "nonAdmin";
