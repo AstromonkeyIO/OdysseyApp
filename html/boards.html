@@ -34,9 +34,9 @@
 		    </ul>
 		</nav>
 
-
-		<nav class="navbar navbar-fixed-right" role="navigation">
-			<div style="width: 300px; margin-left:40%; margin-top:10px;">
+		<!-- Search Bar -->
+		<nav class="search-bar" role="navigation">
+			<div style="">
             <div class="input-group custom-search-form">
             <input type="text" class="form-control" ng-model="searchTaskKey" ng-keyup="searchTaskInputEvent($event)" autocomplete="off">
             <span class="input-group-btn">
@@ -50,6 +50,7 @@
 			</ul>
          </div>
     	</nav>
+    	<!-- -->
 
 
 
@@ -113,6 +114,7 @@
 						<div class="board">
 						<h3>{{board.title}}</h3>
 						<p>Creator: {{board.creator.username}}</p>
+						<p>Board Key: {{board.boardKey}}</p> 
 						<p>{{board.description}}</p>
 						<button type="button" class="btn btn-danger btn-md board-remove-button" ng-click="deleteBoard(board._id); $event.preventDefault()"><i class="glyphicon glyphicon-remove"></i></button>
 						<button type="button" class="btn btn-info btn-md board-edit-button" ng-click="editBoard(board); $event.preventDefault()"><i class="glyphicon glyphicon-cog"></i></button>

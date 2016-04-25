@@ -129,6 +129,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         $scope.taskFormState = "edit";
         $scope.targetedWorkflow = workflow;
         $scope.taskFormId = task._id;
+        $scope.taskFormTaskId = task.taskId;
         $scope.taskFormName = task.title;
         $scope.taskFormDescription = task.description;
         $scope.taskFormDate = task.dueDate;
@@ -178,6 +179,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             contentType: 'application/json',
             processData: false,
             success: function(task) {
+                console.log(task);
                 console.log("mail sent");
             },
             error: function(error) {
@@ -189,10 +191,6 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $scope.sendCommentNotificationEmail = function(taskId, creator, comment) {
 
-        console.log(taskId);
-        console.log(creator); 
-        console.log(comment);   
-        console.log("im here");
         $.ajax({ 
             type: "POST",
             url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks/" + taskId + "/comment",
@@ -647,7 +645,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             processData: false,
             success: function(comment) {
                 
-                $scope.sendCommentNotificationEmail($scope.taskFormId, $scope.currentUser.username, newComment);
+                //$scope.sendCommentNotificationEmail($scope.taskFormId, $scope.currentUser.username, newComment);
                 
                 comment.creator = $scope.currentUser;
                 $scope.newComment = "";
@@ -702,6 +700,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
             $scope.assignedUser = "";
             $(".assigneeInput").css("display", "block");
             $scope.newWorkflowTitle = "";
+            $scope.taskFormProgress = 0;
             $scope.$apply();
         });
 

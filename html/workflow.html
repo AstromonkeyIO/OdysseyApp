@@ -75,7 +75,6 @@
     aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
 
-
             <div class="modal-content" style="height:220px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
@@ -130,7 +129,8 @@
                     <div class="task-details-view">
                     <form ng-submit="submitTaskForm()" style="text-align:center; position:relative;" ng-model="taskForm">
                         <div class="input-group" style="margin:20px;">
-                            <span class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                            <span ng-if="taskFormState=='create'"class="input-group-addon success"><span class="glyphicon glyphicon-plus"></span></span>
+                            <span ng-if="taskFormState=='edit'"class="input-group-addon success">{{taskFormTaskId}}</span>
                             <input id="task-name-input" type="text" class="form-control input-lg" name="validate-optional" placeholder="New Task" ng-model="taskFormName" required>
                         </div>
                         <div class="input-group" style="margin:20px;">
@@ -282,7 +282,7 @@
                         <ul class='list-group' ng-repeat="task in workflow.tasks">
                             <li id="{{task._id}}" class="list-group-item task-box">
                                 <a href="#" style="text-decoration: none !important;" class="task-link">
-                                <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.title}}</p>
+                                <p style="word-break:break-all; margin-right: 10px; font-size: medium;">{{task.taskId}}: {{task.title}}</p>
                                 <p ng-if="task.description" class="task-detail">Details : {{task.description}}</p>
                                 <p class="task-creator">Creator: {{task.creator.username}}</p>
                                 <p ng-if="task.assignee" class="task-assignee">Assignee: {{task.assignee.username}}</p>

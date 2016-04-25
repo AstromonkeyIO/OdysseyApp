@@ -89,7 +89,6 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 						if($scope.boardsList[i]._id == board._id) {
 
 							board.creator = $scope.currentUser;
-							console.log(board.creator);
 							$scope.boardsList[i] = board;
 							$scope.editBoardId = "";
 							$scope.$apply();
@@ -122,7 +121,6 @@ odysseyApp.controller('boardsController', function($rootScope, $scope, $routePar
 				
 				for(i = 0; i < $scope.boardsList.length; i++) {
 					if($scope.boardsList[i]._id == boardId) {
-						console.log(i);
 						$scope.boardsList.splice(i, 1);
 						$scope.$apply();
 					}
