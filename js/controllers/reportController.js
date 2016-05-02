@@ -13,7 +13,7 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 
 			$.ajax({ 
 			  type: "GET",
-			  url: "http://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.searchInput,
+			  url: "https://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.searchInput,
 			  crossDomain: true,
 			  dataType: "json",
 			  contentType: 'application/json',
@@ -36,7 +36,7 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 
 			$.ajax({ 
 			  type: "GET",
-			  url: "http://odysseyapistaging.herokuapp.com/api/boards?q=" + $scope.searchInput,
+			  url: "https://odysseyapistaging.herokuapp.com/api/boards?q=" + $scope.searchInput,
 			  crossDomain: true,
 			  dataType: "json",
 			  contentType: 'application/json',
@@ -90,7 +90,7 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 
 			$.ajax({ 
 				type: "GET",
-				url: "http://odysseyapistaging.herokuapp.com/api/report/creator/" + $scope.selectedUser._id,
+				url: "https://odysseyapistaging.herokuapp.com/api/report/creator/" + $scope.selectedUser._id,
 				crossDomain: true,
 				dataType: "json",
 				contentType: 'application/json',
@@ -109,7 +109,7 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 			
 			$.ajax({ 
 				type: "GET",
-				url: "http://odysseyapistaging.herokuapp.com/api/report/assignee/" + $scope.selectedUser._id,
+				url: "https://odysseyapistaging.herokuapp.com/api/report/assignee/" + $scope.selectedUser._id,
 				crossDomain: true,
 				dataType: "json",
 				contentType: 'application/json',
@@ -128,7 +128,7 @@ odysseyApp.controller('reportController', function($rootScope, $scope, $location
 			
 		    $.ajax({ 
 		        type: "GET",
-		        url: "http://odysseyapistaging.herokuapp.com/api/boards/" + $scope.selectedBoard._id + "/workflows",
+		        url: "https://odysseyapistaging.herokuapp.com/api/boards/" + $scope.selectedBoard._id + "/workflows",
 		        crossDomain: true,
 		        dataType: "json",
 		        contentType: 'application/json',

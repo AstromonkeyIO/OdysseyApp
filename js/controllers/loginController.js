@@ -21,7 +21,7 @@ odysseyApp.controller('loginController', function($rootScope, $scope, $location,
 
         $.ajax({ 
             type: "GET",
-            url: "http://odysseyapistaging.herokuapp.com/api/users/"+ $scope.username +"/" + $scope.password,
+            url: "https://odysseyapistaging.herokuapp.com/api/users/"+ $scope.username +"/" + $scope.password,
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
@@ -68,7 +68,7 @@ odysseyApp.controller('loginController', function($rootScope, $scope, $location,
 
         $.ajax({ 
             type: "PUT",
-            url: "http://odysseyapistaging.herokuapp.com/api/invitee",
+            url: "https://odysseyapistaging.herokuapp.com/api/invitee",
             data: JSON.stringify({"email": $scope.signupEmail, "username": $scope.signupUsername, "password": $scope.signupPassword, "title": $scope.signupTitle}),
             crossDomain: true,
             dataType: "json",

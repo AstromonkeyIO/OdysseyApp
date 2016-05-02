@@ -26,7 +26,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/invitee",
+            url: "https://odysseyapistaging.herokuapp.com/api/invitee",
             data: JSON.stringify({"email": email, "role": role}),
             crossDomain: true,
             dataType: "json",
@@ -63,7 +63,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
         console.log("i'm here");
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/mail/invite",
+            url: "https://odysseyapistaging.herokuapp.com/api/mail/invite",
             data: JSON.stringify({"newMemberEmail": email, "inviter": sender}),
             crossDomain: true,
             dataType: "json",
@@ -97,7 +97,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
         $.ajax({ 
             type: "GET",
-            url: "http://odysseyapistaging.herokuapp.com/api/users",
+            url: "https://odysseyapistaging.herokuapp.com/api/users",
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
@@ -148,7 +148,7 @@ odysseyApp.controller('teamController', function ($scope, $routeParams, $compile
 
        $.ajax({ 
             type: "DELETE",
-            url: "http://odysseyapistaging.herokuapp.com/api/users/"+ userId,               
+            url: "https://odysseyapistaging.herokuapp.com/api/users/"+ userId,               
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',

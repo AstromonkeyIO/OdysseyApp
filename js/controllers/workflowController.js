@@ -16,7 +16,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
     $.ajax({ 
         type: "GET",
-        url: "http://odysseyapistaging.herokuapp.com/api/boards/" + $routeParams.boardId + "/workflows",
+        url: "https://odysseyapistaging.herokuapp.com/api/boards/" + $routeParams.boardId + "/workflows",
         crossDomain: true,
         dataType: "json",
         contentType: 'application/json',
@@ -57,7 +57,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/workflows",
+            url: "https://odysseyapistaging.herokuapp.com/api/workflows",
             data: JSON.stringify({ "title": $scope.newWorkflowTitle, "boardId": $scope.boardId}),
             crossDomain: true,
             dataType: "json",
@@ -108,7 +108,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "DELETE",
-            url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+taskId,
+            url: "https://odysseyapistaging.herokuapp.com/api/tasks/"+taskId,
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
@@ -172,7 +172,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks",
+            url: "https://odysseyapistaging.herokuapp.com/api/mail/tasks",
             data: JSON.stringify({"recipientEmail": recipientEmail, "ccEmail" : ccEmail, "task": task}),
             crossDomain: true,
             dataType: "json",
@@ -193,7 +193,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/mail/tasks/" + taskId + "/comment",
+            url: "https://odysseyapistaging.herokuapp.com/api/mail/tasks/" + taskId + "/comment",
             data: JSON.stringify({"creator": creator, "comment": comment}),
             crossDomain: true,
             dataType: "json",
@@ -241,7 +241,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
             $.ajax({ 
                 type: "POST",
-                url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetedWorkflow._id +"/tasks",
+                url: "https://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetedWorkflow._id +"/tasks",
                 data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "creatorId": $scope.currentUser._id , "dueDate": $scope.taskFormDate, "boardId": $scope.boardId, "workflow": $scope.targetedWorkflow._id, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, "taskRecord": taskRecord, "progress": $scope.taskFormProgress}),
                 crossDomain: true,
                 dataType: "json",
@@ -249,18 +249,24 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
                 processData: false,
                 success: function(task) {
                     
-                    console.log(task);
-                    task.creator = $scope.currentUser;
-                    task.assignee = $scope.assignedUser;
-                    $scope.targetedWorkflow.tasks.push(task);
-                    $scope.$apply();
-                    $('#task-form').modal('hide');
-                    $scope.clearTaskForm();
-                    //send mail to task
-                    if(typeof($scope.assignedUser) != 'undefined') {
-                        console.log(task);
-                        $scope.sendTaskNotificationEmail(task.assignee.email, task.creator.email, task);
+                    console.log(task)
+                    if(typeof(task.error) != 'undefined') {
+                        console.log("error");
+                    } else {
 
+                        console.log(task);
+                        task.creator = $scope.currentUser;
+                        task.assignee = $scope.assignedUser;
+                        $scope.targetedWorkflow.tasks.push(task);
+                        $scope.$apply();
+                        $('#task-form').modal('hide');
+                        $scope.clearTaskForm();
+                        //send mail to task
+                        if(typeof($scope.assignedUser) != 'undefined') {
+                            console.log(task);
+                            $scope.sendTaskNotificationEmail(task.assignee.email, task.creator.email, task);
+
+                        }
                     }
 
                 },
@@ -277,7 +283,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
             $.ajax({ 
                 type: "PUT",
-                url: "http://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
+                url: "https://odysseyapistaging.herokuapp.com/api/tasks/"+ $scope.taskFormId,
                 data: JSON.stringify({ "title": $scope.taskFormName, "description": $scope.taskFormDescription, "dueDate": $scope.taskFormDate, "workflow":  $scope.selectedWorkflowId, "assigneeId": assigneeId, "priority": $scope.taskFormPriority, "progress": $scope.taskFormProgress, 'taskRecord': taskRecord}),                
                 crossDomain: true,
                 dataType: "json",
@@ -422,7 +428,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "PUT",
-            url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,
+            url: "https://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,
             data: JSON.stringify({ "title": $scope.editWorkflowTitle}),                
             crossDomain: true,
             dataType: "json",
@@ -472,7 +478,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "DELETE",
-            url: "http://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,               
+            url: "https://odysseyapistaging.herokuapp.com/api/workflows/"+ $scope.targetWorkflow._id,               
             crossDomain: true,
             dataType: "json",
             contentType: 'application/json',
@@ -544,7 +550,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
         }
         $.ajax({ 
           type: "GET",
-          url: "http://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.taskFormAssignee,
+          url: "https://odysseyapistaging.herokuapp.com/api/users?q=" + $scope.taskFormAssignee,
           crossDomain: true,
           dataType: "json",
           contentType: 'application/json',
@@ -638,7 +644,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
         $.ajax({ 
             type: "POST",
-            url: "http://odysseyapistaging.herokuapp.com/api/comments/",
+            url: "https://odysseyapistaging.herokuapp.com/api/comments/",
             data: JSON.stringify({ "creatorId": $scope.currentUser._id, "taskId": $scope.taskFormId, "comment": newComment }),
             crossDomain: true,
             dataType: "json",
@@ -672,7 +678,7 @@ odysseyApp.controller('workflowController', function ($scope, $routeParams, $com
 
             $.ajax({ 
               type: "GET",
-              url: "http://odysseyapistaging.herokuapp.com/api/tasks?q=" + $scope.searchTaskKey,
+              url: "https://odysseyapistaging.herokuapp.com/api/tasks?q=" + $scope.searchTaskKey,
               crossDomain: true,
               dataType: "json",
               contentType: 'application/json',
